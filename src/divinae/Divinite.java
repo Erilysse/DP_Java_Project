@@ -14,10 +14,11 @@ public class Divinite extends Carte{
 	
 	public void utiliserCapacite() {
 		if (aUtiliseSaCapacite = false) {
+			System.out.println("La capacité de la divivinité n'a aucun effet. L'implémentation n'a pas été faite. Sorry !");
 			// implémentation de l'effet de la capacité de la divinité 
-			aUtiliseSaCapacite = true;
 		} else {
 			System.out.println("Le joueur a déjà utilisé sa capacité de Divinité. ");
 		}
+		aUtiliseSaCapacite = true;
 	}
 }

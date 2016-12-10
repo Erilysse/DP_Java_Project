@@ -28,16 +28,21 @@ public class CampDuJoueur {
 	}
 
 	public void ajouterCarte(GuideSpirituel carte) {
-		this.camp.add(carte);
+		this.getCamp().add(carte);
 		this.nbCarte = this.camp.size();
 	}
 
 	public void afficherCamp() {
-		System.out.println("Composition du camp du joueur :");
-		for (int i = 0; i < nbCarte; i++) {
-			System.out.println("Carte n°"+i+" :");
-			this.camp.get(i).afficherCarte();
-			this.camp.get(i).afficherCroyants();
+		System.out.println("Composition du camp du joueur : ");
+		if (this.camp.isEmpty()) {
+			System.out.println("Le camp est vide. \n");
+		}
+		else {
+			for (int i = 0; i < nbCarte; i++) {
+				System.out.println("Carte n°"+i+" :");
+				this.camp.get(i).afficherCarte();
+				this.camp.get(i).afficherCroyants();
+			}
 		}
 	}
 

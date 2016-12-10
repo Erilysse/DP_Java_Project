@@ -38,68 +38,9 @@ public abstract class Joueur {
 		this.centre = Centre.getInstance();
 		// création du scanner
 		sc = new Scanner(System.in);
-		//initialisation de canPlay : attribut permettant ou pas de jouer une carte
-		this.canPlay = false;
-	}
-
-	public boolean iscanPlay() {
-		return canPlay;
-	}
-
-	public void setcanPlay(boolean canPlay) {
-		this.canPlay = canPlay;
-	}
-
-	public void setListPA(int[] listPA) {
-		this.ListPA = listPA;
-	}
-
-	public void setListPAindex(int index, int valeur){
-		for(int i=0; i<valeur; i++){
-			this.ListPA[index]++;
-			}
-		this.ListPAmax[index] = this.ListPA[index];
-	}
-	
-	public int[] getListPA() {
-		return ListPA;
-	}
-
-	public void afficherListPA() {
-		System.out.println("Vous avez :\n");
-		System.out.println(this.ListPA[0] + " points Jour\n");
-		System.out.println(this.ListPA[1] + " points Nuit\n");
-		System.out.println(this.ListPA[2] + " points Néant\n");
-	}
-
-	public void regenererPA() {
-		this.setListPA(this.ListPAmax);
-	}
-
-	public void ajouterPA(int face) {
-		int origine = this.diviniteRepresentee.getOrigine();
-		switch (face) {
-		case 0:
-			if (origine == 1) {
-				this.ListPA[0] += 2;
-			} else if (origine == 2) {
-				this.ListPA[0] += 1;
-			}
-			break;
-		case 1:
-			if (origine == 5) {
-				this.ListPA[1] += 2;
-			} else if (origine == 4) {
-				this.ListPA[1] += 1;
-			}
-			break;
-		case 2:
-			if ((origine == 2) || (origine == 4)) {
-				this.ListPA[2] += 1;
-			}
-			break;
-		}
-		this.ListPAmax = this.ListPA;
+		// initialisation de canPlay : attribut permettant ou pas de jouer une
+		// carte
+		this.setCanPlay(false);
 	}
 
 	public int getNbrPrieres() {
@@ -117,7 +58,7 @@ public abstract class Joueur {
 	public void setCampjoueur(CampDuJoueur campjoueur) {
 		this.campjoueur = campjoueur;
 	}
-	
+
 	public Divinite getDiviniteRepresentee() {
 		return diviniteRepresentee;
 	}
@@ -146,6 +87,98 @@ public abstract class Joueur {
 		return humain;
 	}
 
+	public boolean isaFiniSonTour() {
+		return aFiniSonTour;
+	}
+
+	public void setaFiniSonTour(boolean aFiniSonTour) {
+		this.aFiniSonTour = aFiniSonTour;
+	}
+	
+	public Pioche getPioche() {
+		return pioche;
+	}
+
+	public void setPioche(Pioche pioche) {
+		this.pioche = pioche;
+	}
+
+	public static Joueur getJoueurActif() {
+		return joueurActif;
+	}
+
+	public static void setJoueurActif(Joueur joueurActif) {
+		Joueur.joueurActif = joueurActif;
+	}
+
+	public boolean iscanPlay() {
+		return isCanPlay();
+	}
+
+	public void setcanPlay(boolean canPlay) {
+		this.setCanPlay(canPlay);
+	}
+	
+	public int[] getListPAmax() {
+		return ListPAmax;
+	}
+
+	public void setListPAmax(int[] listPAmax) {
+		ListPAmax = listPAmax;
+	}
+
+	public void setListPA(int[] listPA) {
+		this.ListPA = listPA;
+	}
+	
+	public int[] getListPA() {
+		return ListPA;
+	}
+
+	public void setListPAindex(int index, int valeur) {
+		for (int i = 0; i < valeur; i++) {
+			this.ListPA[index]++;
+		}
+		this.ListPAmax[index] = this.ListPA[index];
+	}
+
+	public void afficherListPA() {
+		System.out.println(this.getDiviniteRepresentee().getNom() + " a :\n");
+		System.out.println(this.getListPA()[0] + " points Jour");
+		System.out.println(this.getListPA()[1] + " points Nuit");
+		System.out.println(this.getListPA()[2] + " points Néant\n");
+	}
+
+	public void regenererPA() {
+		this.setListPA(this.ListPAmax);
+	}
+
+	public void ajouterPA(int face) {
+		int origine = this.getDiviniteRepresentee().getOrigine();
+		switch (face) {
+		case 0:
+			if (origine == 1) {
+				this.ListPA[0] += 2;
+			} else if (origine == 2) {
+				this.ListPA[0] += 1;
+			}
+			break;
+		case 1:
+			if (origine == 5) {
+				this.ListPA[1] += 2;
+			} else if (origine == 4) {
+				this.ListPA[1] += 1;
+			}
+			break;
+		case 2:
+			if ((origine == 2) || (origine == 4)) {
+				this.ListPA[2] += 1;
+			}
+			break;
+		}
+		this.setListPAmax(this.ListPA);
+	}
+
 	/**
 	 * Joue le tour d'un Joueur.<br>
 	 * Pour un JoueurHumain, cette méthode affiche les informations nécessaire à
@@ -170,17 +203,16 @@ public abstract class Joueur {
 			this.reagir();
 		} else {
 			this.afficherListPA();
+			((IA) this).executerStrategy();
 			this.centre.afficherCentre();
 			this.campjoueur.afficherCamp();
-			this.piocherCarte();
-			((IA) this).executerStrategy();
 		}
 		// Annonce la fin du tour du joueur
 		this.finirLeTour();
 	}
 
 	public void reagir() {
-		while (this.aFiniSonTour == false) {
+		while (this.isaFiniSonTour() == false) {
 			System.out.println("Que veux-tu faire ?\n");
 			System.out.println("1 : Jouer une carte. ");
 			System.out.println("2 : Rattacher un Croyant à un Guide Spirituel.");
@@ -188,50 +220,52 @@ public abstract class Joueur {
 			System.out.println("4 : Ne rien faire.");
 			switch (sc.nextInt()) {
 			case 1:
-				this.mainjoueur.afficherMain();
+				this.getMainjoueur().afficherMain();
 				this.jouerCarte();
 				break;
 			case 2:
-				if(!this.campjoueur.getCamp().isEmpty() && !this.centre.getCentre().isEmpty()){
-					this.campjoueur.afficherCamp();
-					System.out.println("Donne-moi l'index du Guide Spirituel auquel vous voulez rattacher des cartes :");
+				if (!this.getCampjoueur().getCamp().isEmpty() && !this.getCentre().getCentre().isEmpty()) {
+					this.getCampjoueur().afficherCamp();
+					System.out
+							.println("Donne-moi l'index du Guide Spirituel auquel vous voulez rattacher des cartes :");
 					int indexcamp = sc.nextInt();
-					this.centre.afficherCentre();
+					this.getCentre().afficherCentre();
 					System.out.println("Donne-moi l'index du Croyant que vous voulez rattacher :");
 					int indexcentre = sc.nextInt();
-					this.campjoueur.getCamp().get(indexcamp).rattacherCroyants(this.centre.donnerCroyant(indexcentre));
-					}
+					this.getCampjoueur().getCamp().get(indexcamp)
+							.rattacherCroyants(this.getCentre().donnerCroyant(indexcentre));
+				}
 				System.out.println("Le camp et/ou le centre est vide, donc vous ne pouvez pas faire cela.");
-					break;
+				break;
 			case 3:
 				System.out.println("Le joueur utilise sa capacité");
-				this.diviniteRepresentee.utiliserCapacite();
+				this.getDiviniteRepresentee().utiliserCapacite();
 				break;
 			default:
 				System.out.println("Le joueur ne fait rien.");
 			}
-			System.out.println("As-tu fini ton tour ?\nOui \nNon");
+			System.out.println("As-tu fini ton tour ? (Entrez Oui ou Non)");
 			if (sc.next().equals("Oui")) {
-				this.aFiniSonTour = true;
+				this.setaFiniSonTour(true);
 			}
 		}
 	}
 
 	public void defausserCarte() {
-		System.out.println("Veux-tu défausser une carte ?\nOui\nNon");
+		System.out.println("Veux-tu défausser une carte ?(Entrez Oui ou Non)");
 		String reponse = sc.next();
-		if (reponse.equals("Oui")) { //pour comparer des strings c'est mieux de faire comme ça que des ==
+		if (reponse.equals("Oui")) { // pour comparer des strings c'est mieux de
+										// faire comme ça que des ==
 			// Vérification qu'il y a des cartes dans la main, on ne peut pas
 			// défausser s'il n'y a pas de cartes
-			if (this.mainjoueur.getNbCarte() > 0) {
+			if (this.getMainjoueur().getNbCarte() > 0) {
 				// Enlever une carte de la main, elle est spécifié par le joueur
 				// grâce à son index
-				this.mainjoueur.afficherMain();
+				this.getMainjoueur().afficherMain();
 				System.out.println("Donne-moi l'index de cette carte");
 				int indexCarte = sc.nextInt();
-				this.pioche.recuperer(this.mainjoueur.defausserCarte(indexCarte));
-			}
-			else{
+				this.getPioche().recuperer(this.getMainjoueur().defausserCarte(indexCarte));
+			} else {
 				System.out.println("Vous n'avez pas de cartes à défausser");
 			}
 		}
@@ -242,13 +276,13 @@ public abstract class Joueur {
 		 * vérification qu'il n'a pas déjà 7 cartes en main, le maximum de
 		 * cartes autorisee.
 		 */
-		if (this.mainjoueur.getNbCarte() < 7) {
-			System.out.println("Vous avez moins de 7 cartes, nous allons compléter votre main jusqu'à 7\n");
-			while (this.mainjoueur.getNbCarte() < 7) {
+		if (this.getMainjoueur().getNbCarte() < 7) {
+			System.out.println("Vous avez moins de 7 cartes, nous allons compléter votre main jusqu'à 7 : \n");
+			while (this.getMainjoueur().getNbCarte() < 7) {
 				// Demande à la pioche de donner une carte
-				Carte carte = this.pioche.piocher();
+				Carte carte = this.getPioche().piocher();
 				// Ajout à la main de la carte piochée
-				this.mainjoueur.ajouterCarte(carte);
+				this.getMainjoueur().ajouterCarte(carte);
 			}
 
 		}
@@ -256,94 +290,95 @@ public abstract class Joueur {
 	}
 
 	public void prendreLaMain() {
-		System.out.println(this.diviniteRepresentee.getNom()+" prends la main !");
 		joueurActif = this;
+		System.out.println(joueurActif.getDiviniteRepresentee().getNom() + " prends la main !");
 	}
 
-
 	public void finirLeTour() {
-		System.out.println(joueurActif.diviniteRepresentee.getNom()+" a fini de jouer.");
+		System.out.println(joueurActif.getDiviniteRepresentee().getNom() + " a fini de jouer.");
 	}
 
 	public void jouerCarte() {
 		System.out.println("Donner l'index de la carte à jouer");
 		int index = sc.nextInt();
-		switch(this.mainjoueur.getMain().get(index).getType()){
-		case("Croyants"): 
-			this.verifierConsommerPA(index);
-		if(this.canPlay==true){
-			Croyant croyant = (Croyant) this.mainjoueur.defausserCarte(index);
-			this.centre.ajouterCroyant(croyant);
-		}else{System.out.println("donc vous ne pouvez toujours pas jouer la carte");}
-		this.canPlay = false;
-		break;
-		case("Guide Spirituel"): 
-			this.verifierConsommerPA(index);
-		if(this.canPlay == true){
-			GuideSpirituel gs = (GuideSpirituel) this.mainjoueur.defausserCarte(index);
-			this.campjoueur.ajouterCarte(gs);
-		}else{System.out.println("donc vous ne pouvez toujours pas jouer la carte");}
-		this.canPlay = false;
-		break;
-		case("Deus Ex"): 
-			this.verifierConsommerPA(index);
-		if(this.canPlay==true){
-			DeusEx de = (DeusEx) this.mainjoueur.defausserCarte(index);
-			de.effet();
-		}else{System.out.println("donc vous ne pouvez toujours pas jouer la carte");}
-		this.canPlay = false;
-		break;
-		case("Apocalypse"): 
-			this.verifierConsommerPA(index);
-		if(this.canPlay == true){
-			Apocalypse apo = (Apocalypse) this.mainjoueur.defausserCarte(index);
-			apo.effet();
-		}else{System.out.println("donc vous ne pouvez toujours pas jouer la carte");}
-		this.canPlay = false;
-		break;
+		this.verifierConsommerPA(index);
+		if (this.isCanPlay() == true) {
+			switch (this.getMainjoueur().getMain().get(index).getType()) {
+			case ("Croyants"):
+				Croyant croyant = (Croyant) this.getMainjoueur().defausserCarte(index);
+				this.getCentre().ajouterCroyant(croyant);
+				break;
+			case ("Guide Spirituel"):
+				GuideSpirituel gs = (GuideSpirituel) this.getMainjoueur().defausserCarte(index);
+				this.getCampjoueur().ajouterCarte(gs);
+				break;
+			case ("Deus Ex"):
+				DeusEx de = (DeusEx) this.getMainjoueur().defausserCarte(index);
+				de.effet();
+				break;
+			case ("Apocalypse"):
+				Apocalypse apo = (Apocalypse) this.getMainjoueur().defausserCarte(index);
+				apo.effet();
+				break;
+			}
+		} else {
+			System.out.println("Vous ne pouvez pas jouer la carte. \n");
 		}
+		this.setCanPlay(false);
 	}
 
 	public void verifierConsommerPA(int rep) {
-			switch (this.mainjoueur.getMain().get(rep).getOrigine()) {
-			case (1):
-				if (this.ListPA[0] > 0) {
-					this.canPlay = true;
-					this.ListPA[0]--;
-				}
+		switch (this.getMainjoueur().getMain().get(rep).getOrigine()) {
+		case (1):
+			if (this.getListPA()[0] > 0) {
+				this.setCanPlay(true);
+				this.getListPA()[0]--;
+			} else {
 				System.out.println("Vous n'avez pas assez de PA pour jouer la carte");
-				break;
-			case (3):
-				if (this.ListPA[2] > 0) {
-					this.canPlay = true;
-					this.ListPA[2]--;
-				}
-			
-				if (this.ListPA[0] > 2 || this.ListPA[1] > 2) {
-					System.out.println("Choisir quel type de PA à dépenser:\n 1:Jour\n 2:Nuit");
-					int i = sc.nextInt();
-					switch (i) {
-					case (1):
-						this.canPlay = true;
-						this.ListPA[0] = this.ListPA[0] - 2;
-						break;
-					case (2):
-						this.canPlay = true;
-						this.ListPA[1] = this.ListPA[1] - 2;
-						break;
-					}
-				}
-				System.out.println("Vous n'avez pas assez de PA pour jouer la carte");
-				break;
-			case (5):
-				if (this.ListPA[1] > 0) {
-					this.canPlay = true;
-					this.ListPA[1]--;
-				}
-				System.out.println("Vous n'avez pas assez de PA pour jouer la carte");
-				break;
-			case(0): break;
-			default: System.out.println("Bien essayé");
 			}
+			break;
+		case (3):
+			if (this.getListPA()[2] > 0) {
+				this.setCanPlay(true);
+				this.getListPA()[2]--;
+			} else if (this.getListPA()[0] > 2 || this.getListPA()[1] > 2) {
+				System.out.println("Choisir quel type de PA à dépenser:\n 1:Jour\n 2:Nuit");
+				int i = sc.nextInt();
+				switch (i) {
+				case (1):
+					this.setCanPlay(true);
+					this.getListPA()[0] = this.getListPA()[0] - 2;
+					break;
+				case (2):
+					this.setCanPlay(true);
+					this.getListPA()[1] = this.getListPA()[1] - 2;
+					break;
+				}
+			} else {
+				System.out.println("Vous n'avez pas assez de PA pour jouer la carte");
+			}
+			break;
+		case (5):
+			if (this.getListPA()[1] > 0) {
+				this.setCanPlay(true);
+				this.getListPA()[1]--;
+			} else {
+				System.out.println("Vous n'avez pas assez de PA pour jouer la carte");
+			}
+			break;
+		case (0):
+			this.setCanPlay(true);
+			break;
+		default:
+			System.out.println("Bien essayé");
 		}
+	}
+
+	public boolean isCanPlay() {
+		return canPlay;
+	}
+
+	public void setCanPlay(boolean canPlay) {
+		this.canPlay = canPlay;
+	}
 }
