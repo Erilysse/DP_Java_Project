@@ -57,30 +57,34 @@ public class Carte {
 		
 	}
 	
+	public String afficherDogme(int i) {
+		switch(this.dogme[i]){
+				case("A"): return "Nature ";
+		  		case("B"): return "Humain ";
+		  		case("C"): return "Symboles ";
+		  		case("D"): return "Mystique ";
+		  		case("E"): return "Chaos ";
+		  		default :  return " ";
+		}
+	}
+	
+	public String afficherOrigine() {
+		switch(origine){
+			case(1): return "Jour ";
+			case(2): return "Aube ";
+			case(3): return "Néant ";
+			case(4): return "Crépuscule ";
+			case(5): return "Nuit ";
+			default: return " ";
+		}
+	}
 	public void afficherCarte(){
 		System.out.println(type+" "+nom+" ");
 		for(int i=0; i< dogme.length; i++){
-			switch(dogme[i]){
-				case("A"): System.out.print("Nature "); break;
-		  		case("B"): System.out.print("Humain "); break;
-		  		case("C"): System.out.print("Symboles "); break;
-		  		case("D"): System.out.print("Mystique "); break;
-		  		case("E"): System.out.print("Chaos "); break;
-		  		case("0"):System.out.print(" "); break;
-				}
+			System.out.println(this.afficherDogme(i));
 		}
-		System.out.println();
-		switch(origine){
-		case(1):System.out.print("Jour "); break;
-		case(2):System.out.print("Aube "); break;
-		case(3):System.out.print("Néant "); break;
-		case(4):System.out.print("Crépuscule "); break;
-		case(5):System.out.print("Nuit "); break;
-		case(0):System.out.print(" "); break;
-		}
-		System.out.println();
-		System.out.println(cara);
-		System.out.println();
+		System.out.println(this.afficherOrigine());
+		System.out.println(cara + "\n");
 	}
 	
 	public void sacrifice(){

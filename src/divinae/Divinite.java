@@ -1,5 +1,7 @@
 package divinae;
 
+import java.util.Arrays;
+
 public class Divinite extends Carte{
 	
 	private boolean aUtiliseSaCapacite = false;
@@ -8,6 +10,14 @@ public class Divinite extends Carte{
 		super(type, nom, dogme1, dogme2, dogme3, origine, p);
 	}
 	
+	
+	public void afficherDivinitebis() {
+		System.out.println("Divinité " + getNom() + ", est d'origine " + afficherOrigine() + " et a pour dogmes : ");
+		for (int i=0; i<this.getDogme().length; i++) {
+			System.out.println(this.afficherDogme(i));
+		}
+	}	
+
 	public void afficherDivinite(){
 		super.afficherCarte();
 	}

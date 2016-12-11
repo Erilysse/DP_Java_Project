@@ -47,10 +47,13 @@ public class Centre {
 	}
 	
 	public void afficherCentre(){
-		System.out.println("Composiion du centre :\n");
+		System.out.println("Composition du centre :\n");
 		for(int i=0; i<this.nbCarte; i++){
 			System.out.println("Carte n°"+i+" :");
 			this.centre.get(i).afficherCarte();
+		}
+		if (this.getCentre().isEmpty()) {
+			System.out.println("Le centre est vide.");
 		}
 	}
 	

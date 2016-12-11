@@ -94,7 +94,7 @@ public abstract class Joueur {
 	public void setaFiniSonTour(boolean aFiniSonTour) {
 		this.aFiniSonTour = aFiniSonTour;
 	}
-	
+
 	public Pioche getPioche() {
 		return pioche;
 	}
@@ -118,7 +118,7 @@ public abstract class Joueur {
 	public void setcanPlay(boolean canPlay) {
 		this.setCanPlay(canPlay);
 	}
-	
+
 	public int[] getListPAmax() {
 		return ListPAmax;
 	}
@@ -130,7 +130,7 @@ public abstract class Joueur {
 	public void setListPA(int[] listPA) {
 		this.ListPA = listPA;
 	}
-	
+
 	public int[] getListPA() {
 		return ListPA;
 	}
@@ -211,62 +211,75 @@ public abstract class Joueur {
 		this.finirLeTour();
 	}
 
-	public void reagir() {
+	public void reagir() throws InputMismatchException {
 		while (this.isaFiniSonTour() == false) {
 			System.out.println("Que veux-tu faire ?\n");
 			System.out.println("1 : Jouer une carte. ");
 			System.out.println("2 : Rattacher un Croyant à un Guide Spirituel.");
 			System.out.println("3 : Utiliser la capacité de sa Divinité.");
-			System.out.println("4 : Ne rien faire.");
-			switch (sc.nextInt()) {
-			case 1:
-				this.getMainjoueur().afficherMain();
-				this.jouerCarte();
-				break;
-			case 2:
-				if (!this.getCampjoueur().getCamp().isEmpty() && !this.getCentre().getCentre().isEmpty()) {
-					this.getCampjoueur().afficherCamp();
-					System.out
-							.println("Donne-moi l'index du Guide Spirituel auquel vous voulez rattacher des cartes :");
-					int indexcamp = sc.nextInt();
-					this.getCentre().afficherCentre();
-					System.out.println("Donne-moi l'index du Croyant que vous voulez rattacher :");
-					int indexcentre = sc.nextInt();
-					this.getCampjoueur().getCamp().get(indexcamp)
-							.rattacherCroyants(this.getCentre().donnerCroyant(indexcentre));
+			System.out.println("Par défaut : Ne rien faire.");
+			try {
+				switch (sc.nextInt()) {
+				case 1:
+					this.getMainjoueur().afficherMain();
+					this.jouerCarte();
+					break;
+				case 2:
+					if (!this.getCampjoueur().getCamp().isEmpty() && !this.getCentre().getCentre().isEmpty()) {
+						this.getCampjoueur().afficherCamp();
+						System.out.println(
+								"Donne-moi l'index du Guide Spirituel auquel vous voulez rattacher des cartes :");
+						int indexcamp = sc.nextInt();
+						this.getCentre().afficherCentre();
+						System.out.println("Donne-moi l'index du Croyant que vous voulez rattacher :");
+						int indexcentre = sc.nextInt();
+						this.getCampjoueur().getCamp().get(indexcamp)
+								.rattacherCroyants(this.getCentre().donnerCroyant(indexcentre));
+					}
+					System.out.println("Le camp et/ou le centre est vide, donc vous ne pouvez pas faire cela.");
+					break;
+				case 3:
+					System.out.println("Le joueur utilise sa capacité");
+					this.getDiviniteRepresentee().utiliserCapacite();
+					break;
+				default:
+					System.out.println("Le joueur ne fait rien.");
 				}
-				System.out.println("Le camp et/ou le centre est vide, donc vous ne pouvez pas faire cela.");
-				break;
-			case 3:
-				System.out.println("Le joueur utilise sa capacité");
-				this.getDiviniteRepresentee().utiliserCapacite();
-				break;
-			default:
-				System.out.println("Le joueur ne fait rien.");
-			}
-			System.out.println("As-tu fini ton tour ? (Entrez Oui ou Non)");
-			if (sc.next().equals("Oui")) {
-				this.setaFiniSonTour(true);
+				System.out.println("As-tu fini ton tour ? (Entrez Oui sinon par défaut, ça sera Non.");
+				if (sc.next().equals("Oui")) {
+					this.setaFiniSonTour(true);
+				}
+			} catch (InputMismatchException e) {
+				System.err.println("Erreur : Vous devez entrer un nombre entier.");
+			} catch (IndexOutOfBoundsException o) {
+				System.err.println("Erreur : Vous devez entrer un nombre compris entre 0 et le nombre total de cartes de la main / ou du centre / ou de votre camp, moins 1.");
 			}
 		}
 	}
 
 	public void defausserCarte() {
-		System.out.println("Veux-tu défausser une carte ?(Entrez Oui ou Non)");
+		System.out.println("Veux-tu défausser une carte ?(Entrez Oui, sinon par défaut ça sera Non.)");
 		String reponse = sc.next();
 		if (reponse.equals("Oui")) { // pour comparer des strings c'est mieux de
 										// faire comme ça que des ==
 			// Vérification qu'il y a des cartes dans la main, on ne peut pas
 			// défausser s'il n'y a pas de cartes
-			if (this.getMainjoueur().getNbCarte() > 0) {
-				// Enlever une carte de la main, elle est spécifié par le joueur
-				// grâce à son index
-				this.getMainjoueur().afficherMain();
-				System.out.println("Donne-moi l'index de cette carte");
-				int indexCarte = sc.nextInt();
-				this.getPioche().recuperer(this.getMainjoueur().defausserCarte(indexCarte));
-			} else {
-				System.out.println("Vous n'avez pas de cartes à défausser");
+			try {
+				if (this.getMainjoueur().getNbCarte() > 0) {
+					// Enlever une carte de la main, elle est spécifié par le
+					// joueur
+					// grâce à son index
+					this.getMainjoueur().afficherMain();
+					System.out.println("Donne-moi l'index de cette carte");
+					int indexCarte = sc.nextInt();
+					this.getPioche().recuperer(this.getMainjoueur().defausserCarte(indexCarte));
+				} else {
+					System.out.println("Vous n'avez pas de cartes à défausser");
+				}
+			} catch (InputMismatchException e) {
+				System.out.println("Erreur : vous devez entrer le nombre entier correspondant au type de PA.");
+			}catch (IndexOutOfBoundsException o) {
+				System.err.println("Erreur : Vous devez entrer un nombre compris entre 0 et 6.");
 			}
 		}
 	}
@@ -291,7 +304,7 @@ public abstract class Joueur {
 
 	public void prendreLaMain() {
 		joueurActif = this;
-		System.out.println(joueurActif.getDiviniteRepresentee().getNom() + " prends la main !");
+		System.out.println(joueurActif.getDiviniteRepresentee().getNom() + " prends la main ! \n");
 	}
 
 	public void finirLeTour() {
@@ -300,31 +313,38 @@ public abstract class Joueur {
 
 	public void jouerCarte() {
 		System.out.println("Donner l'index de la carte à jouer");
-		int index = sc.nextInt();
-		this.verifierConsommerPA(index);
-		if (this.isCanPlay() == true) {
-			switch (this.getMainjoueur().getMain().get(index).getType()) {
-			case ("Croyants"):
-				Croyant croyant = (Croyant) this.getMainjoueur().defausserCarte(index);
-				this.getCentre().ajouterCroyant(croyant);
-				break;
-			case ("Guide Spirituel"):
-				GuideSpirituel gs = (GuideSpirituel) this.getMainjoueur().defausserCarte(index);
-				this.getCampjoueur().ajouterCarte(gs);
-				break;
-			case ("Deus Ex"):
-				DeusEx de = (DeusEx) this.getMainjoueur().defausserCarte(index);
-				de.effet();
-				break;
-			case ("Apocalypse"):
-				Apocalypse apo = (Apocalypse) this.getMainjoueur().defausserCarte(index);
-				apo.effet();
-				break;
+		try {
+			int index = sc.nextInt();
+			this.verifierConsommerPA(index);
+			if (this.isCanPlay() == true) {
+				switch (this.getMainjoueur().getMain().get(index).getType()) {
+				case ("Croyants"):
+					Croyant croyant = (Croyant) this.getMainjoueur().defausserCarte(index);
+					this.getCentre().ajouterCroyant(croyant);
+					break;
+				case ("Guide Spirituel"):
+					GuideSpirituel gs = (GuideSpirituel) this.getMainjoueur().defausserCarte(index);
+					this.getCampjoueur().ajouterCarte(gs);
+					break;
+				case ("Deus Ex"):
+					DeusEx de = (DeusEx) this.getMainjoueur().defausserCarte(index);
+					de.effet();
+					break;
+				case ("Apocalypse"):
+					Apocalypse apo = (Apocalypse) this.getMainjoueur().defausserCarte(index);
+					apo.effet();
+					break;
+				}
+			} else {
+				System.out.println("Vous ne pouvez pas jouer la carte. \n");
 			}
-		} else {
-			System.out.println("Vous ne pouvez pas jouer la carte. \n");
+			this.setCanPlay(false);
+		} catch (InputMismatchException e) {
+			System.err.println(
+					"Erreur : vous devez entrer un nombre entier en tant qu'index. Référez vous au numéro de la carte.");
+		} catch (IndexOutOfBoundsException o) {
+			System.err.println("Erreur : Vous devez entrer un nombre compris entre 0 et 6.");
 		}
-		this.setCanPlay(false);
 	}
 
 	public void verifierConsommerPA(int rep) {
@@ -338,26 +358,31 @@ public abstract class Joueur {
 			}
 			break;
 		case (3):
-			if (this.getListPA()[2] > 0) {
-				this.setCanPlay(true);
-				this.getListPA()[2]--;
-			} else if (this.getListPA()[0] > 2 || this.getListPA()[1] > 2) {
-				System.out.println("Choisir quel type de PA à dépenser:\n 1:Jour\n 2:Nuit");
-				int i = sc.nextInt();
-				switch (i) {
-				case (1):
+			try {
+				if (this.getListPA()[2] > 0) {
 					this.setCanPlay(true);
-					this.getListPA()[0] = this.getListPA()[0] - 2;
-					break;
-				case (2):
-					this.setCanPlay(true);
-					this.getListPA()[1] = this.getListPA()[1] - 2;
-					break;
+					this.getListPA()[2]--;
+				} else if (this.getListPA()[0] > 2 || this.getListPA()[1] > 2) {
+					System.out.println("Choisir quel type de PA à dépenser:\n 1:Jour\n 2:Nuit");
+					int i = sc.nextInt();
+					switch (i) {
+					case (1):
+						this.setCanPlay(true);
+						this.getListPA()[0] = this.getListPA()[0] - 2;
+						break;
+					case (2):
+						this.setCanPlay(true);
+						this.getListPA()[1] = this.getListPA()[1] - 2;
+						break;
+					default : System.out.println("Vous n'avez entrer ni 1 ni 2.");
+					}
+				} else {
+					System.out.println("Vous n'avez pas assez de PA pour jouer la carte");
 				}
-			} else {
-				System.out.println("Vous n'avez pas assez de PA pour jouer la carte");
+				break;
+			} catch (InputMismatchException e) {
+				System.err.println("Erreur : vous devez entrer un nombre entier.");
 			}
-			break;
 		case (5):
 			if (this.getListPA()[1] > 0) {
 				this.setCanPlay(true);
@@ -372,6 +397,10 @@ public abstract class Joueur {
 		default:
 			System.out.println("Bien essayé");
 		}
+	}
+
+	public void afficherDivinite() {
+		this.diviniteRepresentee.afficherDivinitebis();
 	}
 
 	public boolean isCanPlay() {

@@ -2,6 +2,7 @@ package divinae;
 
 import java.util.Scanner;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Iterator;
 
 public class Jeu {
@@ -70,19 +71,23 @@ public class Jeu {
 		Joueur humain = Humain.getInstance(this.piocheD.piocher());			//t'avais mis == mais du coup ça marchait pas
 		this.ListJoueur.add(humain);							//j'ai mis < et ça marche
 		System.out.println("Combien y-a-t-il de joueurs IA ?");
+		try {
 		int nbrJoueurIA = sc.nextInt();
 		for (int i = 0; i < nbrJoueurIA; i++) {
 			Joueur ia = new IA(this.piocheD.piocher(), null);
 			this.ListJoueur.add(ia);
 		}
 		this.nbJoueur = this.ListJoueur.size();
+		this.afficherListJoueur();
+		}  catch (InputMismatchException e) {
+			System.err.println("Erreur : Vous devez entrer un nombre entier.");
+		}
 	}
 	
 	public void afficherListJoueur(){
-		System.out.println(this.nbJoueur);
 		for(int i=0; i<this.nbJoueur; i++){
-			System.out.println("Joueur "+(i+1));
-			this.ListJoueur.get(i).toString();
+			System.out.println("\n Joueur "+(i+1) + " : ");
+			this.ListJoueur.get(i).afficherDivinite();
 		}
 		
 	}
@@ -92,9 +97,10 @@ public class Jeu {
 
 	public void jouerPartie() {
 		while (this.nbJoueur != 1) {
-			System.out.println("Tour n°"+this.nbTour);
+			System.out.println("\n Tour n°"+this.nbTour+ "\n");
 			Iterator<Joueur> ListJoueur = this.ListJoueur.iterator();
 			this.de.lancerDe();
+			System.out.println();
 			while (ListJoueur.hasNext()) {
 				ListJoueur.next().jouerTour(this.de.getFace());
 			}
