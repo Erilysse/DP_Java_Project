@@ -10,7 +10,6 @@ import cartes.Croyant;
  * 
  * @see Croyant
  * @see Jeu
- * @see Joueur
  * 
  * @author manic
  *
