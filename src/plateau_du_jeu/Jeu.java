@@ -1,25 +1,21 @@
 package plateau_du_jeu;
 
 import java.util.Scanner;
-
-import joueurs.Humain;
-import joueurs.IA;
-import joueurs.Joueur;
-import pioches.Pioche;
-import pioches.PiocheDivinite;
-
+import joueurs.*;
+import pioches.*;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Iterator;
 
+/**
+ * Elle n'est instanciable qu'une fois, grâce au patter singleton.<br>
+ * Elle possède les attributs suivants:<br>
+ * <code>private final Scanner sc</code> pour la gestion des entrées
+ * claviers<br>
+ * <code>private static Jeu instance</code> pour garantir l'unicité du Jeu.
+ */
 public class Jeu {
-	/**
-	 * Elle n'est instanciable qu'une fois, grâce au patter singleton.<br>
-	 * Elle possède les attributs suivants:<br>
-	 * <code>private final Scanner sc</code> pour la gestion des entrées
-	 * claviers<br>
-	 * <code>private static Jeu instance</code> pour garantir l'unicité du Jeu.
-	 */
 
 	private final Scanner sc;
 	private int nbTour;
@@ -35,11 +31,10 @@ public class Jeu {
 
 	/**
 	 * C'est le design pattern singleton. Il s'assure de n'avoir qu'une instance
-	 * de Console.
+	 * de Jeu.
 	 * 
-	 * @return une Console.
+	 * @return un Jeu.
 	 */
-
 	public static Jeu getInstance() {
 		if (instance == null) {
 			instance = new Jeu();

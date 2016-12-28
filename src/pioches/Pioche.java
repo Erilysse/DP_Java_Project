@@ -1,13 +1,7 @@
 package pioches;
 
 import java.util.LinkedList;
-
-import cartes.Apocalypse;
-import cartes.Carte;
-import cartes.Croyant;
-import cartes.DeusEx;
-import cartes.GuideSpirituel;
-
+import cartes.*;
 import java.util.*;
 import java.io.FileReader;
 import java.io.BufferedReader;
@@ -36,9 +30,13 @@ public class Pioche {
 	}
 
 	/**
-	 * C'est le design pattern singleton. Il s'assure de n'avoir qu'une instance de Pioche
+	 * C'est le design pattern singleton. Il s'assure de n'avoir qu'une instance
+	 * de Pioche.
 	 * 
 	 * @return une Pioche.
+	 * 
+	 * @throws NumberFormatException
+	 * @throws IOException
 	 */
 	public static Pioche getInstance() {
 		if (instance == null) {
@@ -47,65 +45,90 @@ public class Pioche {
 		return instance;
 	}
 
-	public Pioche() throws NumberFormatException {
+	/**
+	 * Constructeur Pioche. A partir d'un fichier texte, le constructeur sépare
+	 * les différentes valeurs contenues dans chaque ligne entre les "*", puis
+	 * stockent ces valeurs dans un tableau. On vérifie alors le type de la
+	 * carte afin de créer la carte dans la bonne classe.
+	 */
+	public Pioche() {
 		paquet = new LinkedList<Carte>();
+		BufferedReader in = null;
 		try {
-			BufferedReader in = null;
 			in = new BufferedReader(new FileReader("cartedivinae.txt"));
-			String line;
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		String line;
+		try {
 			while ((line = in.readLine()) != null) {
-				// Ici on sépare les différentes valeures contenues dans la
-				// ligne entre les '*' et on
-				// les stocke dans un tableau de String
 				String[] decoupee = line.split("\\;");
-				/*Carte carte = new Carte(decoupee[0], decoupee[1], decoupee[2], decoupee[3], decoupee[4], decoupee[5],
-						decoupee[6]);
-				this.paquet.addLast(carte);*/
-				switch(decoupee[0]){
-				case("Croyants"):Croyant croyant = new Croyant(decoupee[0], decoupee[1], decoupee[2], decoupee[3], decoupee[4],decoupee[5], decoupee[6]);
-				this.paquet.addLast(croyant);
-				break;
-				case("Guide Spirituel"):GuideSpirituel GS = new GuideSpirituel(decoupee[0], decoupee[1], decoupee[2], decoupee[3],decoupee[4], decoupee[5], decoupee[6]);
-				this.paquet.addLast(GS);
-				break;
-				case("Apocalypse"):Apocalypse apo = new Apocalypse(decoupee[0], decoupee[1], decoupee[2], decoupee[3],decoupee[4], decoupee[5], decoupee[6]);
-				this.paquet.addLast(apo);
-				break;
-				case("Deus Ex"):DeusEx DE = new DeusEx(decoupee[0], decoupee[1], decoupee[2], decoupee[3],decoupee[4], decoupee[5], decoupee[6]);
-				this.paquet.addLast(DE);
-				break;
-				default:System.err.println("pioche vide");
+				switch (decoupee[0]) {
+				case ("Croyants"):
+					Croyant croyant = new Croyant(decoupee[0], decoupee[1], decoupee[2], decoupee[3], decoupee[4],
+							decoupee[5], decoupee[6]);
+					this.paquet.addLast(croyant);
+					break;
+				case ("Guide Spirituel"):
+					GuideSpirituel GS = new GuideSpirituel(decoupee[0], decoupee[1], decoupee[2], decoupee[3], decoupee[4],
+							decoupee[5], decoupee[6]);
+					this.paquet.addLast(GS);
+					break;
+				case ("Apocalypse"):
+					Apocalypse apo = new Apocalypse(decoupee[0], decoupee[1], decoupee[2], decoupee[3], decoupee[4],
+							decoupee[5], decoupee[6]);
+					this.paquet.addLast(apo);
+					break;
+				case ("Deus Ex"):
+					DeusEx DE = new DeusEx(decoupee[0], decoupee[1], decoupee[2], decoupee[3], decoupee[4], decoupee[5],
+							decoupee[6]);
+					this.paquet.addLast(DE);
+					break;
+				default:
+					System.err.println("pioche vide");
 				}
-				
-				
 			}
 			in.close();
-			this.nbCarte = this.paquet.size();
 		} catch (IOException e) {
-			System.err.println("ERREUR : " + e.getMessage());
+			e.printStackTrace();
 		}
+		this.nbCarte = this.paquet.size();
 	}
 
-	public void afficherPioche() {
-		for (int i = 0; i < nbCarte; i++) {
-			this.paquet.get(i).afficherCarte();
-		}
-	}
-
+	/**
+	 * 
+	 */
 	public void melanger() {
 		for (int i = 0; i < 10; i++) {
 			Collections.shuffle(this.paquet);
 		}
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public Carte piocher() {
 		nbCarte = this.paquet.size();
 		return this.paquet.remove();
 	}
 
+	/**
+	 * 
+	 * @param carte
+	 */
 	public void recuperer(Carte carte) {
 		this.paquet.addLast(carte);
 		nbCarte = this.paquet.size();
 	}
 
+	/**
+	 * 
+	 */
+	public void afficherPioche() {
+		for (int i = 0; i < nbCarte; i++) {
+			this.paquet.get(i).afficherCarte();
+		}
+	}
 }

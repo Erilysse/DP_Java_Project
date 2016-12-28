@@ -1,27 +1,61 @@
 package pioches;
 
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.LinkedList;
-
 import cartes.Divinite;
 
+/**
+ * PiocheDivinité est une classe qui hérite de Pioche. Elle rassemble l'ensemble
+ * de toutes les cartes divinités qui peuvent représenté un joueur. Elle sert
+ * une seule fois, en début de partie, afin d'attribuer une divinité à chaque
+ * joueur.
+ * 
+ * @see Divinite
+ * @see Joueur
+ * @see Pioche
+ * 
+ * @author manic
+ *
+ */
 public class PiocheDivinite extends Pioche {
-	private static LinkedList<Divinite> paquet;
-	private int nbCarte;
+	/**
+	 * Liste de l'ensemble des Divinités qui peuvent représenté un joueur. Elle
+	 * peut être mélangé et l'on peut retirer une Divinité de cette liste.
+	 * 
+	 * @see Divinite
+	 * @see Joueur
+	 * @see PiocheDivinite#piocher()
+	 * @see PiocheDivinite#melanger()
+	 */
+	private LinkedList<Divinite> paquet;
 
-	public PiocheDivinite() /* throws NumberFormatException, IOException */ {
+	/**
+	 * Constructeur PiocheDivinite qui ressemble au Constructeur Pioche. Lit un
+	 * fichier texte où les lignes sont découpés en plusieurs morceaux afin
+	 * d'être stocké dans un tableau, puis attribué aux paramètres du
+	 * Constructeur Divinité.
+	 * 
+	 * @see Divinite
+	 * @see Divinite#Divinite(String, String, String, String, String, String,
+	 *      String)
+	 * @see Pioche#Pioche()
+	 */
+	public PiocheDivinite() {
 		paquet = new LinkedList<Divinite>();
+		BufferedReader in = null;
 		try {
-			BufferedReader in = null;
 			in = new BufferedReader(new FileReader("divinite.txt"));
-			String line;
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		String line;
+		try {
 			while ((line = in.readLine()) != null) {
-				// Ici on sépare les différentes valeures contenues dans la
-				// ligne entre les '*' et on
-				// les stocke dans un tableau de String
 				String[] decoupee = line.split("\\;");
 				Divinite carte = new Divinite(decoupee[0], decoupee[1], decoupee[2], decoupee[3], decoupee[4], decoupee[5],
 						decoupee[6]);
@@ -29,20 +63,26 @@ public class PiocheDivinite extends Pioche {
 			}
 			in.close();
 		} catch (IOException e) {
-			System.err.println("ERREUR : " + e.getMessage());
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		this.nbCarte = this.paquet.size();
 	}
-	
+
+	/**
+	 * Mélange le paquet grâce à la méthode shuffle.
+	 */
 	public void melanger() {
 		for (int i = 0; i < 10; i++) {
 			Collections.shuffle(this.paquet);
 		}
 	}
-	
+
+	/**
+	 * Retourne la première divinité du paquet.
+	 * 
+	 * @return une carte Divinité.
+	 */
 	public Divinite piocher() {
-		nbCarte = this.paquet.size();
 		return this.paquet.pollFirst();
 	}
-
 }
