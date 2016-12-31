@@ -58,7 +58,14 @@ public class Carte {
 	 */
 	private int origine;
 	/**
-	 * L
+	 * Pour une carte Croyant, le nombre de points de prières qu'elle rapporte.
+	 * Pour une carte GuideSpirituel, le nombre de Croyants qui peut être rattachés à la carte.
+	 * Pour une carte DeusEx ou Apocalypse, l'attribut est vide.
+	 * 
+	 * @see Croyant
+	 * @see GuideSpirituel
+	 * @see DeusEx
+	 * @see Apocalypse
 	 */
 	private int caracteristique;
 	/**
