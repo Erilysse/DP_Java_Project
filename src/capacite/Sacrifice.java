@@ -10,7 +10,6 @@ import plateau_du_jeu.Jeu;
  * @see Carte
  * 
  * @author manic
- *
  */
 public interface Sacrifice {
 
@@ -29,5 +28,4 @@ public interface Sacrifice {
 	 * 
 	 */
 	public void sacrifice(int origine, int nb, int joueur, Jeu jeu);
-
 }

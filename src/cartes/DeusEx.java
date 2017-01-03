@@ -1,12 +1,13 @@
 package cartes;
 
 /**
- * DeusEx est une classe héritant de Carte. Elle sert à modifier les rapports de force en cours de partie.
+ * DeusEx est une classe héritant de Carte. Elle sert à modifier les rapports de
+ * force en cours de partie.
+ * 
  * @author manic
- *
  */
-public class DeusEx extends Carte{
-	
+public class DeusEx extends Carte {
+
 	/**
 	 * Constructeur DeusEx.
 	 * 
@@ -26,16 +27,17 @@ public class DeusEx extends Carte{
 	 *            l'origine de la carte sous forme de nombre.
 	 * @param p
 	 *            la caractéristique de la carte.
-	 *            
+	 * 
 	 * @see Carte
 	 */
-	public DeusEx(String type,String nom,String dogme1,String dogme2,String dogme3,String origine,String p){
-		super( type, nom, dogme1, dogme2, dogme3, origine, p);
+	public DeusEx(String type, String nom, String dogme1, String dogme2, String dogme3, String origine, String p) {
+		super(type, nom, dogme1, dogme2, dogme3, origine, p);
 	}
-	
+
 	/**
-	 *Sacrifie la carte et implémente son effet.
-	 *Vide car non implémenté à ce jour.
+	 * Sacrifie la carte et implémente son effet. Vide car non implémenté à ce
+	 * jour.
 	 */
-	public void effet(){}
+	public void effet() {
+	}
 }

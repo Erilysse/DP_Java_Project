@@ -8,7 +8,6 @@ import plateau_du_jeu.Jeu;
  * 
  * @author manic
  */
-
 public class Main {
 
 	/**

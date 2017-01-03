@@ -9,9 +9,9 @@ import cartes.Divinite;
  * @see Joueur
  * 
  * @author manic
- *
  */
 public class Humain extends Joueur {
+
 	/**
 	 * Instance de la classe Humain, vide par défaut.
 	 * 

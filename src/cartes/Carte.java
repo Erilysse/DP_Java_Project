@@ -7,7 +7,8 @@ import plateau_du_jeu.Jeu;
  * Carte est la classe représentant une carte quelconque. Une carte est
  * caractérisé par les informations suivantes :
  * 
- * - un type. Elle peut être GuideSpirituel, Croyants, Deus Ex, Apocalypse ou Divinité.
+ * - un type. Elle peut être GuideSpirituel, Croyants, Deus Ex, Apocalypse ou
+ * Divinité.
  * 
  * - un nom.
  * 
@@ -20,9 +21,9 @@ import plateau_du_jeu.Jeu;
  * @see AjoutPA
  * 
  * @author manic
- *
  */
 public class Carte {
+	
 	/**
 	 * Le type de la carte. Elle est GuideSpirituel, Croyants, Deus Ex,
 	 * Apocalypse ou Divinité.
@@ -31,6 +32,7 @@ public class Carte {
 	 * @see Carte#setType(String)
 	 */
 	private String type;
+	
 	/**
 	 * Le nom de la carte. Il est souvent associé à un effet de sacrifice.
 	 * 
@@ -38,6 +40,7 @@ public class Carte {
 	 * @see Carte#setNom(String)
 	 */
 	private String nom;
+	
 	/**
 	 * Un tableau de dogmes, de 0 à 3 maximum. Un dogme peut être humain,
 	 * symboles, mystique, nature, ou chaos.
@@ -48,6 +51,7 @@ public class Carte {
 	 * @see Carte#setDogme(String[])
 	 */
 	private String[] dogme;
+	
 	/**
 	 * L'origine de la carte. Elle peut aussi ne pas en avoir. C'est un nombre
 	 * représentant l'origine Jour, Nuit, Néant, Aube ou Crépuscule.
@@ -57,10 +61,12 @@ public class Carte {
 	 * @see Carte#setOrigine(int)
 	 */
 	private int origine;
+	
 	/**
 	 * Pour une carte Croyant, le nombre de points de prières qu'elle rapporte.
-	 * Pour une carte GuideSpirituel, le nombre de Croyants qui peut être rattachés à la carte.
-	 * Pour une carte DeusEx ou Apocalypse, l'attribut est vide.
+	 * Pour une carte GuideSpirituel, le nombre de Croyants qui peut être
+	 * rattachés à la carte. Pour une carte DeusEx ou Apocalypse, l'attribut est
+	 * vide.
 	 * 
 	 * @see Croyant
 	 * @see GuideSpirituel
@@ -68,6 +74,7 @@ public class Carte {
 	 * @see Apocalypse
 	 */
 	private int caracteristique;
+	
 	/**
 	 * L'effet de la carte, plus précisement l'ajout de PA.
 	 * 
@@ -114,7 +121,6 @@ public class Carte {
 		} catch (NumberFormatException e) {
 			System.err.println("Erreur :" + e.getMessage());
 		}
-
 	}
 
 	/**
@@ -336,5 +342,4 @@ public class Carte {
 			System.out.println("Capacité non implémentée");
 		}
 	}
-
 }

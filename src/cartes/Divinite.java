@@ -1,7 +1,5 @@
 package cartes;
 
-import java.util.Arrays;
-
 /**
  * Divinité est une classe qui hérite de Carte. Elle incarne un joueur. Elle
  * possède une capacité spéciale, utilisable une seule fois en cours de Jeu.
@@ -11,7 +9,6 @@ import java.util.Arrays;
  * @see Carte
  * 
  * @author manic
- *
  */
 public class Divinite extends Carte {
 

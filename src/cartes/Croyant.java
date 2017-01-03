@@ -11,7 +11,6 @@ import plateau_du_jeu.Jeu;
  * @see Joueur
  * 
  * @author manic
- *
  */
 public class Croyant extends Carte {
 	private int pointPriere;

@@ -8,42 +8,37 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+/**
+ * Pioche est une classe qui modélise un paquet de cartes. Il n'y a qu'une seule
+ * instanciation de la classe, grâce au design pattern singleton.
+ * 
+ * @author manic
+ */
 public class Pioche {
-	private LinkedList<Carte> paquet;
-	private int nbCarte;
-	private static Pioche instance = null;
-
-	public LinkedList<Carte> getPaquet() {
-		return paquet;
-	}
-
-	public void setPaquet(LinkedList<Carte> paquet) {
-		this.paquet = paquet;
-	}
-
-	public int getNbCarte() {
-		return nbCarte;
-	}
-
-	public void setNbCarte(int nbCarte) {
-		this.nbCarte = nbCarte;
-	}
 
 	/**
-	 * C'est le design pattern singleton. Il s'assure de n'avoir qu'une instance
-	 * de Pioche.
+	 * Collection, liste d'objets de la classe Carte
 	 * 
-	 * @return une Pioche.
-	 * 
-	 * @throws NumberFormatException
-	 * @throws IOException
+	 * @see Carte
+	 * @see Pioche#getPaquet()
+	 * @see Pioche#setPaquet(LinkedList)
 	 */
-	public static Pioche getInstance() {
-		if (instance == null) {
-			instance = new Pioche();
-		}
-		return instance;
-	}
+	private LinkedList<Carte> paquet;
+
+	/**
+	 * Nombre de cartes présente dans le <code>paquet</code>.
+	 * 
+	 * @see Pioche#getNbCarte()
+	 * @see Pioche#setNbCarte(int)
+	 */
+	private int nbCarte;
+
+	/**
+	 * Unique objet de la classe Pioche, grâce au design pattern singleton.
+	 * 
+	 * @see Pioche#getInstance()
+	 */
+	private static Pioche instance = null;
 
 	/**
 	 * Constructeur Pioche. A partir d'un fichier texte, le constructeur sépare
@@ -57,7 +52,6 @@ public class Pioche {
 		try {
 			in = new BufferedReader(new FileReader("cartedivinae.txt"));
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		String line;
@@ -71,8 +65,8 @@ public class Pioche {
 					this.paquet.addLast(croyant);
 					break;
 				case ("Guide Spirituel"):
-					GuideSpirituel GS = new GuideSpirituel(decoupee[0], decoupee[1], decoupee[2], decoupee[3], decoupee[4],
-							decoupee[5], decoupee[6]);
+					GuideSpirituel GS = new GuideSpirituel(decoupee[0], decoupee[1], decoupee[2], decoupee[3],
+							decoupee[4], decoupee[5], decoupee[6]);
 					this.paquet.addLast(GS);
 					break;
 				case ("Apocalypse"):
@@ -97,7 +91,62 @@ public class Pioche {
 	}
 
 	/**
+	 * Retourne le <code>paquet</code>, c'est à dire l'ensemble des cartes que
+	 * possède la Pioche.
 	 * 
+	 * @return une collection, LinkedList d'objets de la classe Carte.
+	 * 
+	 * @see Carte
+	 */
+	public LinkedList<Carte> getPaquet() {
+		return paquet;
+	}
+
+	/**
+	 * Met à jour le <code>paquet</code>
+	 * 
+	 * @param paquet
+	 *            nouvelle liste d'objets de la classe Carte.
+	 */
+	public void setPaquet(LinkedList<Carte> paquet) {
+		this.paquet = paquet;
+	}
+
+	/**
+	 * Retourne le nombre de cartes du <code>paquet</code>.
+	 * 
+	 * @return un nombre de cartes.
+	 */
+	public int getNbCarte() {
+		return nbCarte;
+	}
+
+	/**
+	 * Met à jour le nombre de cartes.
+	 * 
+	 * @param nbCarte
+	 *            nouveau nombre de cartes.
+	 */
+	public void setNbCarte(int nbCarte) {
+		this.nbCarte = nbCarte;
+	}
+
+	/**
+	 * C'est le design pattern singleton. Il s'assure de n'avoir qu'une instance
+	 * de Pioche.
+	 * 
+	 * @return une Pioche.
+	 * 
+	 */
+	public static Pioche getInstance() {
+		if (instance == null) {
+			instance = new Pioche();
+		}
+		return instance;
+	}
+
+	/**
+	 * Mélange la collection <code>paquet</code>.
 	 */
 	public void melanger() {
 		for (int i = 0; i < 10; i++) {
@@ -106,17 +155,21 @@ public class Pioche {
 	}
 
 	/**
+	 * Retire une carte du <code>paquet</code>.
 	 * 
-	 * @return
+	 * @return un objet de la classe Carte, retiré du <code>paquet</code>.
 	 */
 	public Carte piocher() {
+		Carte p = this.paquet.remove();
 		nbCarte = this.paquet.size();
-		return this.paquet.remove();
+		return p;
 	}
 
 	/**
+	 * Ajoute une carte dans la pioche.
 	 * 
 	 * @param carte
+	 *            objet de la classe Carte qui va être ajouté par la méthode.
 	 */
 	public void recuperer(Carte carte) {
 		this.paquet.addLast(carte);
@@ -124,6 +177,7 @@ public class Pioche {
 	}
 
 	/**
+	 * Affiche l'ensemble des cartes de la Pioche.
 	 * 
 	 */
 	public void afficherPioche() {

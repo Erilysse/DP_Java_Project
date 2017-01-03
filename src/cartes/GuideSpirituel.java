@@ -4,21 +4,23 @@ import java.util.ArrayList;
 
 /**
  * GuideSpirituel est une classe qui hérite de Carte. A pour rôle d'amener à un
- * joueur un nombre variable de cartes de Croyants.
+ * joueur un nombre variable de cartes de Croyants. A les mêmes attributs que la
+ * classe Carte. Possède aussi les caractéristiques suivantes :
  * 
- * A les mêmes attributs que la classe Carte. Possède aussi les caractéristiques
- * suivantes : - un nombre de Croyants Rattachables à la carte, c'est à dire le
- * nombre de cartes Croyants qui peuvent être rattachés. - un nombre de Croyants
- * Rattachés, qui ne peut excéder la capacité de croyants rattachables.
+ * - un nombre de Croyants Rattachables à la carte, c'est à dire le nombre de
+ * cartes Croyants qui peuvent être rattachés.
+ * 
+ * - un nombre de Croyants Rattachés, qui ne peut excéder la capacité de
+ * croyants rattachables.
  * 
  * @see Carte
  * @see Croyant
  * @see Joueur
  * 
  * @author manic
- *
  */
 public class GuideSpirituel extends Carte {
+	
 	/**
 	 * Nombre de cartes Croyant pouvant être rattachés à une carte
 	 * GuideSpirituel.
@@ -28,6 +30,7 @@ public class GuideSpirituel extends Carte {
 	 * @see GuideSpirituel#setNbCroyantsRattachables(int)
 	 */
 	private int nbCroyantsRattachables;
+	
 	/**
 	 * Tableaux des cartes Croyants rattachés à la carte GuideSpirituel. Sa
 	 * taille est déterminé par le nombre de Croyants rattachables.
@@ -105,7 +108,7 @@ public class GuideSpirituel extends Carte {
 	 * 
 	 * @param croyantsRattaches
 	 *            nouvelle liste de croyants rattachés à la carte.
-	 *            
+	 * 
 	 * @see Croyant
 	 */
 	public void setCroyantsRattaches(ArrayList<Croyant> croyantsRattaches) {
@@ -141,7 +144,8 @@ public class GuideSpirituel extends Carte {
 	}
 
 	/**
-	 * Affiche les différents croyants rattachés au GuideSpirituel. Affichage console.
+	 * Affiche les différents croyants rattachés au GuideSpirituel. Affichage
+	 * console.
 	 * 
 	 * @see Croyant
 	 * @see GuideSpirituel#croyantsRattaches
@@ -158,11 +162,13 @@ public class GuideSpirituel extends Carte {
 
 	/**
 	 * Rattache un Croyant à un Guide Spirituel. L'Ajoute dans la liste des
-	 * croyants rattachés si le nombre de Croyant rattachables n'est pas déjà atteint.
+	 * croyants rattachés si le nombre de Croyant rattachables n'est pas déjà
+	 * atteint.
 	 * 
 	 * @param croyant
-	 *            objet de la classe Croyant, celui qui a été choisi par le joueur pour être rattaché à son Guide Spirituel.
-	 *            
+	 *            objet de la classe Croyant, celui qui a été choisi par le
+	 *            joueur pour être rattaché à son Guide Spirituel.
+	 * 
 	 * @see Croyant
 	 * @see Joueur
 	 * @see GuideSpirituel#nbCroyantsRattachables
@@ -197,5 +203,4 @@ public class GuideSpirituel extends Carte {
 	 */
 	public void sacrifice() {
 	}
-
 }

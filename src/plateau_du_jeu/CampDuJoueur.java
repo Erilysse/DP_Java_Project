@@ -1,6 +1,7 @@
 package plateau_du_jeu;
 
 import java.util.ArrayList;
+import java.util.Observable;
 
 import cartes.GuideSpirituel;
 
@@ -16,7 +17,8 @@ import cartes.GuideSpirituel;
  * 
  * @author manic
  */
-public class CampDuJoueur {
+public class CampDuJoueur extends Observable {
+	
 	/**
 	 * Liste d'objets de la classe <code>GuideSpirituel</code> qui représentent
 	 * l'ensemble des Guides Spirituels posés par le joueur, ainsi par extension
@@ -34,6 +36,7 @@ public class CampDuJoueur {
 	 * @see CampDuJoueur#retirerGS(int)
 	 */
 	private ArrayList<GuideSpirituel> camp;
+	
 	/**
 	 * Nombre de cartes que possèdent le <code>camp</code>.
 	 * 
@@ -117,6 +120,8 @@ public class CampDuJoueur {
 	 */
 	public void ajouterCarte(GuideSpirituel carte) {
 		this.getCamp().add(carte);
+		setChanged();
+		notifyObservers();
 		this.nbCarte = this.camp.size();
 	}
 
@@ -132,5 +137,8 @@ public class CampDuJoueur {
 		for (int i = 0; i < this.camp.get(index).getCroyantsRattaches().size(); i++) {
 			Jeu.getInstance().getCentre().ajouterCroyant(this.camp.get(index).retirerCroyant(i));
 		}
+		Jeu.getInstance().getPaquet().getPaquet().add(this.camp.get(index));
+		setChanged();
+		notifyObservers();
 	}
 }

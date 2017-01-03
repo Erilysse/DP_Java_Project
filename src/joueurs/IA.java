@@ -15,6 +15,7 @@ import strategie_IA.*;
  * @author manic
  */
 public class IA extends Joueur {
+
 	/**
 	 * Objet de la classe Strategy, définissant la stratégie adopté par l'IA
 	 * selon le contexte.
@@ -87,7 +88,11 @@ public class IA extends Joueur {
 	}
 
 	/**
-	 * Vérifie que l'IA peut faire une action en regardant sa liste de Points d'Action.
+	 * Vérifie que l'IA peut faire une action en regardant sa liste de Points
+	 * d'Action. Regarde l'origine de la carte que veut poser l'IA, puis vérifie
+	 * si le joueur IA a au moins un point de cette origine, ou au moins deux
+	 * points de l'origine Néant. Si c'est le cas, met à jour l'attribut
+	 * <code>canPlay</code> à true et consomme les points d'actions.
 	 */
 	public void verifierConsommerPA(int rep) {
 		switch (this.getMainjoueur().getMain().get(rep).getOrigine()) {

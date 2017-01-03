@@ -10,9 +10,7 @@ import plateau_du_jeu.Jeu;
  * @see Sacrifice
  * 
  * @author manic
- *
  */
-
 public class AjoutPA implements Sacrifice {
 
 	/**

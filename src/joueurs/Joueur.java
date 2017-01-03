@@ -2,15 +2,18 @@ package joueurs;
 
 import java.util.*;
 import cartes.*;
+import contrôleur.Control;
 import pioches.Pioche;
 import plateau_du_jeu.CampDuJoueur;
 import plateau_du_jeu.Centre;
 
 /**
- * Joueur est une classe qui modélise un joueur. Il possède un camp, une main,
- * un nombre de points de prières, une liste de Points d'action. Il est
- * représenté par une divinité, et connaît le centre et la pioche du jeu.
+ * Joueur est une classe qui modélise un joueur. Il implémente l'interface
+ * Observable. Il possède un camp, une main, un nombre de points de prières, une
+ * liste de Points d'action. Il est représenté par une divinité, et connaît le
+ * centre et la pioche du jeu.
  * 
+ * @see Observable
  * @see Jeu
  * @see Divinite
  * @see CampDuJoueur
@@ -19,15 +22,22 @@ import plateau_du_jeu.Centre;
  * @see Pioche
  * 
  * @author manic
- *
  */
-public abstract class Joueur {
+public abstract class Joueur extends Observable {
+
+	/**
+	 * Instance de la classe Control qui permets de gérer les entrées claviers.
+	 * 
+	 */
+	private Control sca;
+
 	/**
 	 * Booléen permettant de savoir si le joueur est un humain ou un IA.
 	 * 
 	 * @see Joueur#isHuman()
 	 */
 	private final boolean humain;
+
 	/**
 	 * Booléen permettant de savoir si l'objet de la classe Joueur est bien le
 	 * joueur qui est en train de jouer actuellement.
@@ -36,6 +46,7 @@ public abstract class Joueur {
 	 * @see Joueur#setJoueurActif(boolean)
 	 */
 	private boolean joueurActif;
+
 	/**
 	 * Booléen disant quand le joueur a fini son tour de jeu.
 	 * 
@@ -43,6 +54,7 @@ public abstract class Joueur {
 	 * @see Joueur#setaFiniSonTour(boolean)
 	 */
 	private boolean aFiniSonTour;
+
 	/**
 	 * Booléen permettant de savoir si le joueur peut jouer ou pas, c'est à dire
 	 * s'il a assez de Points d'Action pour jouer la carte qu'il le désire.
@@ -51,14 +63,17 @@ public abstract class Joueur {
 	 * @see Joueur#setcanPlay(boolean)
 	 */
 	private boolean canPlay;
+
 	/**
-	 * Booléen permettant de savoir
+	 * Booléen permettant de savoir si des cartes Croyant peuvent être rattachés
+	 * aux guides spirituels du joueur.
 	 * 
 	 * @see Joueur#isCanRattached()
 	 * @see Joueur#setCanRattached(boolean)
 	 * @see Joueur#canRattached(int)
 	 */
 	private boolean canRattached;
+
 	/**
 	 * Objet de la classe Divinité, qui représente le joueur dans le jeu.
 	 * 
@@ -68,6 +83,7 @@ public abstract class Joueur {
 	 * @see Joueur#setDiviniteRepresentee(Divinite)
 	 */
 	private Divinite diviniteRepresentee;
+
 	/**
 	 * Objet de la classe CampDuJoueur qui représente le camp du joueur, c'est à
 	 * dire là où sont posés ses Guides Spirituels et les Croyants qui y sont
@@ -80,6 +96,7 @@ public abstract class Joueur {
 	 * @see Joueur#setCampjoueur(CampDuJoueur)
 	 */
 	private CampDuJoueur campjoueur;
+
 	/**
 	 * Objet de la classe MainDuJoueur qui représente l'ensemble des cartes que
 	 * possèdent le joueur et qui ne sont pas encore posés sur le plateau de
@@ -91,6 +108,7 @@ public abstract class Joueur {
 	 * @see Joueur#
 	 */
 	private MainDuJoueur mainjoueur;
+
 	/**
 	 * Objet de la classe Pioche pour permettre au joueur de piocher et
 	 * défausser des cartes.
@@ -100,6 +118,7 @@ public abstract class Joueur {
 	 * @see Joueur#getPioche()
 	 */
 	private Pioche pioche;
+
 	/**
 	 * Objet de la classe Centre permettant au joueur de poser des Croyants et
 	 * interagir avec les Croyants déjà dedans.
@@ -109,6 +128,7 @@ public abstract class Joueur {
 	 * @see Joueur#getCentre()
 	 */
 	private Centre centre;
+
 	/**
 	 * Nombre de points de prières que le joueur amasse grâce à ses Croyants.
 	 * 
@@ -117,6 +137,7 @@ public abstract class Joueur {
 	 * @see Joueur#setNbrPrieres(int)
 	 */
 	private int nbrPrieres;
+
 	/**
 	 * Liste en forme de tableau des points d'action selon ses origines, lors
 	 * d'un tour de jeu.
@@ -130,6 +151,7 @@ public abstract class Joueur {
 	 * @see Joueur#verifierConsommerPA(int)
 	 */
 	private int ListPA[];
+
 	/**
 	 * Liste en forme de tableau des points d'action selon leur origine,
 	 * comptabilisant tout les points d'action que le joueur a déjà eu.
@@ -140,16 +162,9 @@ public abstract class Joueur {
 	private int ListPAmax[];
 
 	/**
-	 * Objet de la classe Scanner permettant de gérer les entrées écrites.
-	 * 
-	 * @see Scanner
-	 */
-	private Scanner sc;
-
-	/**
 	 * Constructeur Joueur. Par défaut, initialisation des booléens à false ;
 	 * initialisation de la liste des points d'actions et du nombre de points de
-	 * prière à 0 ; création du deck, du camp du joueur, et du scanner.
+	 * prière à 0 ; création du deck, du camp du joueur, et du contrôleur.
 	 * 
 	 * @param humain
 	 *            booléen permettant de savoir si le joueur est humain (true) ou
@@ -175,7 +190,7 @@ public abstract class Joueur {
 		this.campjoueur = new CampDuJoueur();
 		this.pioche = Pioche.getInstance();
 		this.centre = Centre.getInstance();
-		sc = new Scanner(System.in);
+		this.sca = Control.getInstance();
 	}
 
 	/**
@@ -251,19 +266,21 @@ public abstract class Joueur {
 	}
 
 	/**
-	 * Retourne le booléen permettant
+	 * Retourne le booléen permettant de savoir si le joueur peut rattacher un
+	 * Croyant à un de ces GuideSpirituel.
 	 * 
-	 * @return le booléen permettant de savoir
+	 * @return un booléen.
 	 */
 	public boolean isCanRattached() {
 		return canRattached;
 	}
 
 	/**
-	 * Met à jour le booléen.
+	 * Met à jour le booléen permettant de savoir si le joueur peut rattacher un
+	 * Croyant à un de ces GuideSpirituel.
 	 * 
 	 * @param canRattached
-	 *            le nouveau booléen qui va remplacer l'actuel..
+	 *            le nouveau booléen qui va remplacer l'actuel.
 	 */
 	public void setCanRattached(boolean canRattached) {
 		this.canRattached = canRattached;
@@ -543,8 +560,8 @@ public abstract class Joueur {
 					this.getListPA()[2]--;
 				} else if (this.getListPA()[0] > 2 || this.getListPA()[1] > 2) {
 					System.out.println("Choisir quel type de PA à dépenser:\n 1:Jour\n 2:Nuit");
-					int i = sc.nextInt();
-					switch (i) {
+					sca.repInt();
+					switch (sca.answer) {
 					case (1):
 						this.setcanPlay(true);
 						this.getListPA()[0] = this.getListPA()[0] - 2;
@@ -582,11 +599,13 @@ public abstract class Joueur {
 	/**
 	 * Affiche la liste des points d'actions selon leur origine.
 	 */
-	public void afficherListPA() {
+	public String afficherListPA() {
 		System.out.println(this.getDiviniteRepresentee().getNom() + " a :\n");
-		System.out.println(this.getListPA()[0] + " points Jour");
-		System.out.println(this.getListPA()[1] + " points Nuit");
-		System.out.println(this.getListPA()[2] + " points Néant\n");
+		String s0 = this.getListPA()[0] + " points Jour ";
+		String s1 = this.getListPA()[1] + " points Nuit ";
+		String s2 = this.getListPA()[2] + " points Néant";
+		String s = s0 + s1 + s2;
+		return s;
 	}
 
 	/**
@@ -601,7 +620,6 @@ public abstract class Joueur {
 	 * @see IA
 	 * @see Humain
 	 */
-
 	public void jouerTour(int face) {
 		this.prendreLaMain();
 		this.ajouterPA(face);
@@ -639,7 +657,8 @@ public abstract class Joueur {
 			System.out.println("4 : Sacrifier une carte");
 			System.out.println("5 : Ne rien faire.");
 			try {
-				switch (sc.nextInt()) {
+				sca.repInt();
+				switch (sca.answer) {
 				case 1:
 					this.mainjoueur.afficherMain();
 					this.jouerCarte();
@@ -649,10 +668,12 @@ public abstract class Joueur {
 						this.campjoueur.afficherCamp();
 						System.out.println(
 								"Donne-moi l'index du Guide Spirituel auquel vous voulez rattacher des cartes :");
-						int indexcamp = sc.nextInt();
+						sca.repInt();
+						int indexcamp = sca.answer;
 						this.centre.afficherCentre();
 						System.out.println("Donne-moi l'index du Croyant que vous voulez rattacher :");
-						int indexcentre = sc.nextInt();
+						sca.repInt();
+						int indexcentre = sca.answer;
 						if (this.canRattached(indexcentre)) {
 							this.campjoueur.getCamp().get(indexcamp)
 									.rattacherCroyants(this.centre.donnerCroyant(indexcentre));
@@ -669,19 +690,23 @@ public abstract class Joueur {
 				case 4:
 					this.campjoueur.afficherCamp();
 					System.out.println("1: Sacrifier un  Croyant\n2: Sacrifier un Guide Spirituel");
-					int rep = sc.nextInt();
-					switch (rep) {
+
+					sca.repInt();
+					switch (sca.answer) {
 					case (1):
 						System.out.println("Donnez l'index du Guide Spirituel auquel le Croyant est rattaché");
-						int rep1 = sc.nextInt();
+						sca.repInt();
+						int rep1 = sca.answer;
 						System.out.println("Donnez l'index du Croyant dans la liste du Guide Spirituel");
-						int rep2 = sc.nextInt();
+						sca.repInt();
+						int rep2 = sca.answer;
 						this.campjoueur.getCamp().get(rep1).getCroyantsRattaches().get(rep2).sacrifice();
 						this.campjoueur.getCamp().get(rep1).retirerCroyant(rep2);
 						break;
 					case (2):
 						System.out.println("Donnez l'index du Guide Spirituel auquel le Croyant est rattaché");
-						int rep3 = sc.nextInt();
+						sca.repInt();
+						int rep3 = sca.answer;
 						this.campjoueur.getCamp().get(rep3).sacrifice();
 						this.campjoueur.retirerGS(rep3);
 						break;
@@ -697,8 +722,9 @@ public abstract class Joueur {
 				System.err.println(
 						"Erreur : Vous devez entrer un numéro des cartes que vous possédez. Référez vous au nombre de carte et leur numéro attribué.");
 			}
-			System.out.println("As-tu fini ton tour ? (Entrez Oui sinon par défaut, ça sera Non.");
-			if (sc.next().equals("Oui")) {
+			System.out.println("As-tu fini ton tour ? (Entrez 1 pour Oui, sinon par défaut, ça sera Non.");
+			sca.repInt();
+			if (sca.answer != 1) {
 				this.setaFiniSonTour(true);
 			}
 		}
@@ -715,18 +741,21 @@ public abstract class Joueur {
 	public void defausserCarte() {
 		System.out.println("Veux-tu défausser une carte ?(Entrez Oui, sinon par défaut ça sera Non.)");
 		try {
-			String reponse = sc.next();
-			while (reponse.equals("Oui")) {
+			sca.repInt();
+			int reponse = sca.answer;
+			while (reponse == 1) {
 				if (this.getMainjoueur().getNbCarte() > 0) {
 					this.getMainjoueur().afficherMain();
 					System.out.println("Donne-moi l'index de cette carte");
-					int indexCarte = sc.nextInt();
+					sca.repInt();
+					int indexCarte = sca.answer;
 					this.getPioche().recuperer(this.getMainjoueur().defausserCarte(indexCarte));
 				} else {
 					System.out.println("Vous n'avez pas de cartes à défausser");
 				}
 				System.out.println("Veux-tu à nouveau défausser une carte ?");
-				reponse = sc.next();
+				sca.repInt();
+				reponse = sca.answer;
 			}
 		} catch (InputMismatchException e) {
 			System.out.println("Erreur : vous devez entrer le nombre entier correspondant au type de PA.");
@@ -803,7 +832,8 @@ public abstract class Joueur {
 	public void jouerCarte() {
 		System.out.println("Donner l'index de la carte à jouer");
 		try {
-			int index = sc.nextInt();
+			sca.repInt();
+			int index = sca.answer;
 			switch (this.mainjoueur.getMain().get(index).getType()) {
 			case ("Croyants"):
 				this.verifierConsommerPA(index);

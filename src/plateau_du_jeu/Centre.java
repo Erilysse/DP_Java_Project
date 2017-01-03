@@ -1,6 +1,7 @@
 package plateau_du_jeu;
 
 import java.util.ArrayList;
+import java.util.Observable;
 
 import cartes.Croyant;
 
@@ -12,9 +13,9 @@ import cartes.Croyant;
  * @see Jeu
  * 
  * @author manic
- *
  */
-public class Centre {
+public class Centre extends Observable {
+	
 	/**
 	 * Liste d'objets de la classe Croyant. Il y a une méthode d'affichage, et
 	 * il est aussi possible d'ajouter et de retirer une carte Croyant de la
@@ -28,6 +29,7 @@ public class Centre {
 	 * @see Centre#donnerCroyant(int)
 	 */
 	private ArrayList<Croyant> centre;
+	
 	/**
 	 * Nombre de Cartes dans la liste <code>centre</code>.
 	 * 
@@ -36,6 +38,7 @@ public class Centre {
 	 * @see Centre#setNbCarte(int)
 	 */
 	private int nbCarte;
+	
 	/**
 	 * Instance de la classe Centre, initialement vide. Vient du design pattern
 	 * singleton afin qu'il n'y ai qu'un seul objet de la classe Centre.
@@ -102,7 +105,6 @@ public class Centre {
 	 * 
 	 * @return un Centre.
 	 */
-
 	public static Centre getInstance() {
 		if (instance == null) {
 			instance = new Centre();
@@ -137,7 +139,10 @@ public class Centre {
 	 * @see Croyant
 	 */
 	public Croyant donnerCroyant(int i) {
-		return this.centre.remove(i);
+		Croyant croyant = this.centre.remove(i);
+		setChanged();
+		notifyObservers();
+		return croyant;
 	}
 
 	/**
@@ -147,8 +152,10 @@ public class Centre {
 	 * @param croyant
 	 *            objet de la classe Croyant qui veut être ajouté.
 	 */
-	public void ajouterCroyant(Croyant croyant) {
+	public void ajouterCroyant(Croyant croyant){
 		this.centre.add(croyant);
+		setChanged();
+		notifyObservers();
 		this.nbCarte = this.centre.size();
 	}
 }

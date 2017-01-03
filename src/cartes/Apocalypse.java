@@ -12,7 +12,6 @@ import plateau_du_jeu.Jeu;
  * @see Joueur
  * 
  * @author manic
- *
  */
 public class Apocalypse extends Carte {
 	/**
@@ -24,9 +23,7 @@ public class Apocalypse extends Carte {
 	private ApoEffect apocalypse;
 
 	/**
-	 * Constructeur Apocalypse.
-	 * 
-	 * Utilise le Constructeur Carte.
+	 * Constructeur Apocalypse. Utilise le Constructeur Carte.
 	 * 
 	 * @param type
 	 *            le type de la carte.
@@ -65,5 +62,4 @@ public class Apocalypse extends Carte {
 					"Une carte Apocalypse n'est pas utilisable à cet instant. Réessayez plus tard dans la partie.");
 		}
 	}
-
 }

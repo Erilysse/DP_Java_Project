@@ -19,9 +19,9 @@ import cartes.Divinite;
  * @see Pioche
  * 
  * @author manic
- *
  */
 public class PiocheDivinite extends Pioche {
+	
 	/**
 	 * Liste de l'ensemble des Divinités qui peuvent représenté un joueur. Elle
 	 * peut être mélangé et l'on peut retirer une Divinité de cette liste.

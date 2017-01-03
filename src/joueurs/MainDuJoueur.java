@@ -1,19 +1,22 @@
 package joueurs;
 
 import java.util.ArrayList;
+import java.util.Observable;
+
 import cartes.Carte;
 
 /**
  * MainDuJoueur est une classe qui définit le deck du Joueur. Elle possède une
- * liste de cartes et un nombre de cartes.
+ * liste de cartes et un nombre de cartes. Elle implémente l'interface Observable.
  * 
+ * @see Observable
  * @see Joueur
  * @see Carte
  * 
  * @author manic
- *
  */
-public class MainDuJoueur {
+public class MainDuJoueur extends Observable {
+
 	/**
 	 * L'ensemble des cartes que possèdent le joueur. Il y a une méthode
 	 * d'affichage. Il est aussi possible d'ajouter et de retirer une carte de
@@ -26,6 +29,7 @@ public class MainDuJoueur {
 	 * @see MainDuJoueur#afficherMain()
 	 */
 	private ArrayList<Carte> main;
+
 	/**
 	 * Nombre de cartes que possèdent le joueur, et donc le nombre d'élément de
 	 * la main.
@@ -93,9 +97,10 @@ public class MainDuJoueur {
 	 */
 	public void ajouterCarte(Carte carte) {
 		this.main.add(carte);
+		setChanged();
+		notifyObservers();
 		this.nbCarte = this.main.size();
 	}
-
 	/**
 	 * Retire une carte de la collection, et change alors le nombre de cartes.
 	 * 
@@ -107,6 +112,8 @@ public class MainDuJoueur {
 	 */
 	public Carte defausserCarte(int i) {
 		Carte c = this.main.remove(i);
+		setChanged();
+		notifyObservers();
 		this.nbCarte = this.main.size();
 		return c;
 	}
@@ -123,5 +130,4 @@ public class MainDuJoueur {
 			this.main.get(i).afficherCarte();
 		}
 	}
-
 }
