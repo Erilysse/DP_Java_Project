@@ -1,5 +1,9 @@
 package cartes;
 
+import java.awt.Image;
+
+import javax.swing.ImageIcon;
+
 /**
  * Divinité est une classe qui hérite de Carte. Elle incarne un joueur. Elle
  * possède une capacité spéciale, utilisable une seule fois en cours de Jeu.
@@ -41,8 +45,8 @@ public class Divinite extends Carte {
 	 * @param p
 	 *            sa caractéristique.
 	 */
-	public Divinite(String type, String nom, String dogme1, String dogme2, String dogme3, String origine, String p) {
-		super(type, nom, dogme1, dogme2, dogme3, origine, p);
+	public Divinite(String type, String nom, String dogme1, String dogme2, String dogme3, String origine, String p, ImageIcon imageIcon) {
+		super(type, nom, dogme1, dogme2, dogme3, origine, p, imageIcon);
 		this.aUtiliseSaCapacite = false;
 	}
 

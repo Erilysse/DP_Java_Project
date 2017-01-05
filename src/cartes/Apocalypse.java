@@ -1,5 +1,9 @@
 package cartes;
 
+import java.awt.Image;
+
+import javax.swing.ImageIcon;
+
 import capacite.ApoEffect;
 import plateau_du_jeu.Jeu;
 
@@ -42,8 +46,8 @@ public class Apocalypse extends Carte {
 	 * 
 	 * @see Carte
 	 */
-	public Apocalypse(String type, String nom, String dogme1, String dogme2, String dogme3, String origine, String p) {
-		super(type, nom, dogme1, dogme2, dogme3, origine, p);
+	public Apocalypse(String type, String nom, String dogme1, String dogme2, String dogme3, String origine, String p, ImageIcon imageIcon) {
+		super(type, nom, dogme1, dogme2, dogme3, origine, p, imageIcon);
 	}
 
 	/**

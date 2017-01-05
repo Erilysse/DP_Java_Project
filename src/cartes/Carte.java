@@ -1,5 +1,7 @@
 package cartes;
 
+import javax.swing.ImageIcon;
+
 import capacite.AjoutPA;
 import plateau_du_jeu.Jeu;
 
@@ -83,6 +85,8 @@ public class Carte {
 	 * @see Carte#sacrifice()
 	 */
 	private AjoutPA apa;
+	
+	private ImageIcon image;
 
 	/**
 	 * Constructeur Carte.
@@ -108,7 +112,7 @@ public class Carte {
 	 * @param p
 	 *            sa caractéristique.
 	 */
-	public Carte(String type, String nom, String dogme1, String dogme2, String dogme3, String origine, String p) {
+	public Carte(String type, String nom, String dogme1, String dogme2, String dogme3, String origine, String p, ImageIcon imageIcon) {
 		try {
 			this.type = type;
 			this.nom = nom;
@@ -118,6 +122,7 @@ public class Carte {
 			this.dogme[2] = dogme3;
 			this.origine = Integer.parseInt(origine);
 			this.caracteristique = Integer.parseInt(p);
+			this.image= imageIcon;
 		} catch (NumberFormatException e) {
 			System.err.println("Erreur :" + e.getMessage());
 		}

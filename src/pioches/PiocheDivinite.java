@@ -1,11 +1,15 @@
 package pioches;
 
+import java.awt.Image;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.LinkedList;
+
+import javax.swing.ImageIcon;
+
 import cartes.Divinite;
 
 /**
@@ -58,7 +62,7 @@ public class PiocheDivinite extends Pioche {
 			while ((line = in.readLine()) != null) {
 				String[] decoupee = line.split("\\;");
 				Divinite carte = new Divinite(decoupee[0], decoupee[1], decoupee[2], decoupee[3], decoupee[4], decoupee[5],
-						decoupee[6]);
+						decoupee[6], new ImageIcon("./image_divinite/"+decoupee[7]+".png"));
 				this.paquet.addLast(carte);
 			}
 			in.close();

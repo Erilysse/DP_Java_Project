@@ -1,5 +1,9 @@
 package cartes;
 
+import java.awt.Image;
+
+import javax.swing.ImageIcon;
+
 import plateau_du_jeu.Jeu;
 
 /**
@@ -37,8 +41,8 @@ public class Croyant extends Carte {
 	 * @param p
 	 *            nombre de points de prière de la carte.
 	 */
-	public Croyant(String type, String nom, String dogme1, String dogme2, String dogme3, String origine, String p) {
-		super(type, nom, dogme1, dogme2, dogme3, origine, p);
+	public Croyant(String type, String nom, String dogme1, String dogme2, String dogme3, String origine, String p, ImageIcon imageIcon) {
+		super(type, nom, dogme1, dogme2, dogme3, origine, p, imageIcon);
 		this.setPointPriere(Integer.parseInt(p));
 	}
 

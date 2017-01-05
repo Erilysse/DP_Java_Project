@@ -1,6 +1,9 @@
 package cartes;
 
+import java.awt.Image;
 import java.util.ArrayList;
+
+import javax.swing.ImageIcon;
 
 /**
  * GuideSpirituel est une classe qui hérite de Carte. A pour rôle d'amener à un
@@ -63,8 +66,8 @@ public class GuideSpirituel extends Carte {
 	 *            sa caractéristique.
 	 */
 	public GuideSpirituel(String type, String nom, String dogme1, String dogme2, String dogme3, String origine,
-			String p) {
-		super(type, nom, dogme1, dogme2, dogme3, origine, p);
+			String p, ImageIcon imageIcon) {
+		super(type, nom, dogme1, dogme2, dogme3, origine, p, imageIcon);
 		this.nbCroyantsRattachables = Integer.parseInt(p);
 		this.croyantsRattaches = new ArrayList<Croyant>();
 	}

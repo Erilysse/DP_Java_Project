@@ -1,5 +1,9 @@
 package cartes;
 
+import java.awt.Image;
+
+import javax.swing.ImageIcon;
+
 /**
  * DeusEx est une classe héritant de Carte. Elle sert à modifier les rapports de
  * force en cours de partie.
@@ -30,8 +34,8 @@ public class DeusEx extends Carte {
 	 * 
 	 * @see Carte
 	 */
-	public DeusEx(String type, String nom, String dogme1, String dogme2, String dogme3, String origine, String p) {
-		super(type, nom, dogme1, dogme2, dogme3, origine, p);
+	public DeusEx(String type, String nom, String dogme1, String dogme2, String dogme3, String origine, String p, ImageIcon imageIcon) {
+		super(type, nom, dogme1, dogme2, dogme3, origine, p, imageIcon);
 	}
 
 	/**

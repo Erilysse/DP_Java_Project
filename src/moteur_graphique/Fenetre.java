@@ -1,9 +1,5 @@
 package moteur_graphique;
 
-import java.awt.BorderLayout;
-import java.awt.Container;
-import java.awt.FlowLayout;
-import java.awt.Color;
 import javax.swing.*;
 
 public class Fenetre extends JFrame{
@@ -23,11 +19,5 @@ public class Fenetre extends JFrame{
 			this.visible=true;
 		}
 		this.setVisible(visible);
-	}
-	public static void main(String[] args){
-		// Fenetre f1 = new Fenetre();
-		Menu m = new Menu();
-		PopupCentre c = new PopupCentre();
-		AffichageJeu af = new AffichageJeu();
 	}
 }

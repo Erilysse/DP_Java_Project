@@ -1,5 +1,8 @@
 package divinae;
 
+import java.util.Scanner;
+
+import moteur_graphique.Fenetre;
 import plateau_du_jeu.Jeu;
 
 /**
@@ -27,10 +30,16 @@ public class Main {
 	 * 
 	 * @param args
 	 */
+	
 	public static void main(String[] args) {
 		Jeu partie = Jeu.getInstance();
+		Scanner sc = new Scanner(System.in);
 		System.out.println("Veux-tu jouer en console ou en interface graphique ? Console : 1    Graphique : 0");
-		partie.choisirJoueurs();
-		partie.jouerPartie();
+		if (sc.nextInt() == 1 ) {	
+			partie.choisirJoueurs();
+			partie.jouerPartie();
+		} else {
+			Fenetre f = new Fenetre(); 
+		}
 	}
 }
