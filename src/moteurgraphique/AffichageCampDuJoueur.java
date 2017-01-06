@@ -1,4 +1,4 @@
-package moteur_graphique;
+package moteurgraphique;
 
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -11,48 +11,55 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import contrôleur.Control;
+import controleur.Control;
+import plateau_du_jeu.CampDuJoueur;
 import plateau_du_jeu.Jeu;
 
-public class AffichageCampDuJoueur extends JPanel implements ActionListener, Observer{
+public class AffichageCampDuJoueur extends JPanel implements ActionListener, Observer {
 	private Jeu jeu;
 	private ArrayList<JButton> cartes;
+	private CampDuJoueur camp;
 	private Control control;
 	private int index;
-	
-	public AffichageCampDuJoueur(int nb){
+	private int nbButtons;
+
+	public AffichageCampDuJoueur(int nb) {
 		super();
 		jeu = Jeu.getInstance();
 		control = Control.getInstance();
-		cartes = new ArrayList<JButton>();
-		jeu.getListJoueur().get(index).getCampjoueur().addObserver(this);
 		index = nb;
-		int nbButtons = jeu.getListJoueur().get(index).getCampjoueur().getNbCarte();
-		this.setLayout(new GridLayout(1,nbButtons));
-		if(nbButtons>0){
-			for(int i=0; i<nbButtons; i++){
-				JButton j = new JButton(jeu.getListJoueur().get(index).getCampjoueur().getCamp().toString());
+		cartes = new ArrayList<JButton>();
+		camp = jeu.getListJoueur().get(nb).getCampjoueur();
+		camp.addObserver(this);
+		nbButtons = camp.getNbCarte();
+		this.setLayout(new GridLayout(1, nbButtons));
+		if (nbButtons > 0) {
+			for (int i = 0; i <= nbButtons; i++) {
+				JButton j = new JButton(camp.getCamp().get(i).toString());
 				cartes.add(j);
 				this.add(j);
 			}
-		}else{
+		} else {
 			JLabel vide = new JLabel("Le camp est vide");
 			vide.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 			this.add(vide);
 		}
+
 	}
 
 	@Override
 	public void update(Observable o, Object arg) {
 		// TODO Auto-generated method stub
-		int nbButtons = jeu.getListJoueur().get(index).getCampjoueur().getNbCarte();
-		if(nbButtons>0){
-			for(int i=0; i<nbButtons; i++){
-				JButton j = new JButton(jeu.getListJoueur().get(index).getCampjoueur().getCamp().toString());
+		cartes.removeAll(cartes);
+		this.removeAll();
+		nbButtons = camp.getNbCarte();
+		if (nbButtons > 0) {
+			for (int i = 0; i < nbButtons; i++) {
+				JButton j = new JButton(camp.getCamp().get(i).toString());
 				cartes.add(j);
 				this.add(j);
 			}
-		}else{
+		} else {
 			JLabel vide = new JLabel("Le camp est vide");
 			vide.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 			this.add(vide);
@@ -61,6 +68,8 @@ public class AffichageCampDuJoueur extends JPanel implements ActionListener, Obs
 
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-		// TODO Auto-generated method stub	
+		// TODO Auto-generated method stub
+
 	}
+
 }

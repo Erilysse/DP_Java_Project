@@ -1,12 +1,12 @@
-package moteur_graphique;
+package moteurgraphique;
 
 import javax.swing.*;
 
 public class Fenetre extends JFrame{
-	private boolean visible;
+	private static final long serialVersionUID = 1L;
+	private boolean visible = true;
 
 	public Fenetre(){
-		visible = true;
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setTitle("DIVINAE");
 		this.setSize(1366, 768);
@@ -19,5 +19,11 @@ public class Fenetre extends JFrame{
 			this.visible=true;
 		}
 		this.setVisible(visible);
+	}
+	public static void main(String[] args){
+		// Fenetre f1 = new Fenetre();
+		Menu m = new Menu();
+		// PopupCentre c = new PopupCentre();
+		// AffichageJeu af = new AffichageJeu();
 	}
 }

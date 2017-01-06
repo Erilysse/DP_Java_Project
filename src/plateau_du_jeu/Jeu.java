@@ -2,7 +2,7 @@ package plateau_du_jeu;
 
 import java.util.Scanner;
 
-import contrôleur.Control;
+import controleur.Control;
 import joueurs.*;
 import pioches.*;
 import java.util.ArrayList;
@@ -26,13 +26,11 @@ public class Jeu extends Observable {
 	 * @see Jeu#setInstance(Jeu)
 	 */
 	private static Jeu instance = null;
-	private Control sca;
+
 	/**
-	 * Objet de la classe Scanner pour gérer les entrées claviers.
-	 * 
-	 * @see Scanner
+	 * Contrôleur pour le moteur graphique.
 	 */
-	private final Scanner sc;
+	private Control sca;
 
 	/**
 	 * Liste d'objets de la classe Joueur, qui désigne l'ensemble des joueurs
@@ -132,12 +130,11 @@ public class Jeu extends Observable {
 	 */
 	public Jeu() {
 		this.sca = Control.getInstance();
-		this.sc = new Scanner(System.in);
 		this.ListJoueur = new ArrayList<Joueur>();
 		this.nbJoueur = this.ListJoueur.size();
 		this.paquet = Pioche.getInstance();
 		this.paquet.melanger();
-		this.piocheD = (PiocheDivinite) PiocheDivinite.getInstance();
+		this.piocheD = PiocheDivinite.getInstance();
 		this.piocheD.melanger();
 		this.de = De.getInstance();
 		this.centre = Centre.getInstance();
@@ -145,7 +142,7 @@ public class Jeu extends Observable {
 		this.joueurMaxPP = 0;
 		this.joueurMinPP = 0;
 		this.joueuractuel = 0;
-		this.vue = true;
+		this.vue = false;
 		System.out.println("Nouveau jeu!\n");
 	}
 
@@ -276,6 +273,21 @@ public class Jeu extends Observable {
 	}
 
 	/**
+	 * @return the vue
+	 */
+	public static boolean isVue() {
+		return vue;
+	}
+
+	/**
+	 * @param vue
+	 *            the vue to set
+	 */
+	public static void setVue(boolean vue) {
+		Jeu.vue = vue;
+	}
+
+	/**
 	 * Calcule et Retourne le numéro d'un joueur dans <code>ListJoueur</code>
 	 * qui a le plus de points de prières.
 	 * 
@@ -338,31 +350,6 @@ public class Jeu extends Observable {
 	}
 
 	/**
-	 * Créer un joueur Humain et un nombre j de joueurs IA, puis les ajoutent à
-	 * la liste des joueurs <code>ListJoueur</code>. Affiche la liste des
-	 * joueurs, avec les Divinités qui les représentent.
-	 * 
-	 * @param j
-	 *            le nombre de joueurs IA qui vont être créé.
-	 * 
-	 * @see Joueur
-	 * @see Humain
-	 * @see IA
-	 * @see Divinite
-	 */
-	public void choisirJoueurs(int j) {
-		Joueur humain = Humain.getInstance(this.piocheD.piocher());
-		this.ListJoueur.add(humain);
-		System.out.println("Il y a " + j + " IA.");
-		for (int i = 0; i < j; i++) {
-			Joueur ia = new IA(this.piocheD.piocher(), null);
-			this.ListJoueur.add(ia);
-		}
-		this.nbJoueur = this.ListJoueur.size();
-		this.afficherListJoueur();
-	}
-
-	/**
 	 * Créer un joueur Humain et un nombre de joueurs IA décidé par
 	 * l'utilisateur par l'intermédiaire de la console, puis les ajoutent à la
 	 * liste des joueurs <code>ListJoueur</code>. Affiche la liste des joueurs,
@@ -374,21 +361,60 @@ public class Jeu extends Observable {
 	 * @see Divinite
 	 */
 	public void choisirJoueurs() {
-		Joueur humain = Humain.getInstance(this.piocheD.piocher());
-		this.ListJoueur.add(humain);
+		this.ajouterJoueur(0);
 		System.out.println("Combien y-a-t-il de joueurs IA ?");
 		try {
-			sca.repInt();
-			int nbrJoueurIA = sca.answer;
+			int nbrJoueurIA = sca.repInt();
 			for (int i = 0; i < nbrJoueurIA; i++) {
-				Joueur ia = new IA(this.piocheD.piocher(), null);
-				this.ListJoueur.add(ia);
+				this.ajouterJoueur(1);
 			}
 			this.nbJoueur = this.ListJoueur.size();
 			this.afficherListJoueur();
 		} catch (InputMismatchException e) {
 			System.err.println("Erreur : Vous devez entrer un nombre entier.");
 		}
+	}
+
+	/**
+	 * Ajoute un joueur de type humain ou IA selon le paramètre donné. L'objet
+	 * de la classe Joueur est créé et ajouté à la liste des joueurs du jeu.
+	 * 
+	 * @param nature
+	 *            nombre correspondant à la nature du joueur, 1 pour un IA, 0
+	 *            pour un Humain.
+	 * 
+	 * @see IA
+	 * @see Humain
+	 * @see Joueur
+	 */
+	public void ajouterJoueur(int nature) {
+		if (nature == 1) {
+			Joueur ia = new IA(this.piocheD.piocher(), null);
+			this.ListJoueur.add(ia);
+			setChanged();
+			notifyObservers();
+		}
+		if (nature == 0) {
+			Joueur humain = Humain.getInstance(this.piocheD.piocher());
+			this.ListJoueur.add(humain);
+			setChanged();
+			notifyObservers();
+		}
+	}
+
+	/**
+	 * Retire un joueur de la liste des joueurs actuels dans le jeu.
+	 * 
+	 * @param i
+	 *            numéro du joueur dans la liste des joueurs.
+	 * 
+	 * @see Joueur
+	 */
+
+	public void retirerJoueur(int i) {
+		ListJoueur.remove(i);
+		setChanged();
+		notifyObservers();
 	}
 
 	/**

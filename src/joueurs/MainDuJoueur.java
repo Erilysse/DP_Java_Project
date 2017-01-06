@@ -113,7 +113,7 @@ public class MainDuJoueur extends Observable {
 	public Carte defausserCarte(int i) {
 		Carte c = this.main.remove(i);
 		setChanged();
-		notifyObservers();
+		notifyObservers("defausser");
 		this.nbCarte = this.main.size();
 		return c;
 	}

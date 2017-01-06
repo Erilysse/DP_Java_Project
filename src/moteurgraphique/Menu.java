@@ -1,4 +1,4 @@
-package moteur_graphique;
+package moteurgraphique;
 
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
@@ -9,30 +9,30 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import contrôleur.Control;
+import controleur.Control;
 import plateau_du_jeu.Jeu;
 
-public class Menu extends Fenetre implements ActionListener {
+public class Menu extends Fenetre implements ActionListener{
 	private Control control;
 	private Jeu jeu;
-	private JButton j1, j2, j3, j4, j5, j6;
+	private JButton j1,j2,j3,j4,j5,j6;
 	private JLabel title;
 	private JPanel principal;
-
-	public Menu() {
+	
+	public Menu(){
 		super();
 		jeu = Jeu.getInstance();
-		control = Control.getInstance();
-
+		control= Control.getInstance();
+		
 		principal = new JPanel();
-		principal.setLayout(new GridLayout(2, 1));
+		principal.setLayout(new GridLayout(2,1));
 		title = new JLabel("Choisir le nombre d'IA");
 		title.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 		principal.add(title);
-
+		
 		JPanel boutons = new JPanel();
 		boutons.setLayout(new FlowLayout());
-
+		
 		j1 = new JButton("1 IA");
 		j1.addActionListener(this);
 		boutons.add(j1);
@@ -53,46 +53,46 @@ public class Menu extends Fenetre implements ActionListener {
 		boutons.add(j6);
 
 		principal.add(boutons);
-
+		
 		this.setContentPane(principal);
 		super.pack();
 	}
 
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-		if (e.getSource() == j1) {
+		if(e.getSource()==j1){
 			control.setAnswer(1);
 			jeu.choisirJoueurs();
 			super.changerVisibilite();
 		}
-		if (e.getSource() == j2) {
+		if(e.getSource()==j2){
 			control.setAnswer(2);
 			jeu.choisirJoueurs();
 			super.changerVisibilite();
 		}
-		if (e.getSource() == j3) {
+		if(e.getSource()==j3){
 			control.setAnswer(3);
 			jeu.choisirJoueurs();
 			super.changerVisibilite();
 		}
-		if (e.getSource() == j4) {
+		if(e.getSource()==j4){
 			control.setAnswer(4);
 			jeu.choisirJoueurs();
 			super.changerVisibilite();
 		}
-		if (e.getSource() == j5) {
+		if(e.getSource()==j5){
 			control.setAnswer(5);
 			jeu.choisirJoueurs();
 			super.changerVisibilite();
 		}
-		if (e.getSource() == j6) {
+		if(e.getSource()==j6){
 			control.setAnswer(6);
 			jeu.choisirJoueurs();
 			super.changerVisibilite();
 		}
-		// Test test = new Test();
 		AffichageJeu af = new AffichageJeu();
-		// jeu.jouerPartie();
+		jeu.getListJoueur().get(0).piocherCarte();
 	}
 }

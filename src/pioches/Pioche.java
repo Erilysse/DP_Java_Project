@@ -54,7 +54,7 @@ public class Pioche {
 		paquet = new LinkedList<Carte>();
 		BufferedReader in = null;
 		try {
-			in = new BufferedReader(new FileReader("cartedivinae.txt"));
+			in = new BufferedReader(new FileReader("ressources/cartedivinae.txt"));
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -65,22 +65,22 @@ public class Pioche {
 				switch (decoupee[0]) {
 				case ("Croyants"):
 					Croyant croyant = new Croyant(decoupee[0], decoupee[1], decoupee[2], decoupee[3], decoupee[4],
-							decoupee[5], decoupee[6], new ImageIcon("./image_pioche/"+decoupee[7]+".png"));
+							decoupee[5], decoupee[6], new ImageIcon("ressources/"+decoupee[7]+".png"));
 					this.paquet.addLast(croyant);
 					break;
 				case ("Guide Spirituel"):
 					GuideSpirituel GS = new GuideSpirituel(decoupee[0], decoupee[1], decoupee[2], decoupee[3],
-							decoupee[4], decoupee[5], decoupee[6], new ImageIcon("./image_pioche/"+decoupee[7]+".png"));
+							decoupee[4], decoupee[5], decoupee[6], new ImageIcon("ressources/"+decoupee[7]+".png"));
 					this.paquet.addLast(GS);
 					break;
 				case ("Apocalypse"):
 					Apocalypse apo = new Apocalypse(decoupee[0], decoupee[1], decoupee[2], decoupee[3], decoupee[4],
-							decoupee[5], decoupee[6], new ImageIcon("./image_pioche/"+decoupee[7]+".png"));
+							decoupee[5], decoupee[6], new ImageIcon("ressources/"+decoupee[7]+".png"));
 					this.paquet.addLast(apo);
 					break;
 				case ("Deus Ex"):
 					DeusEx DE = new DeusEx(decoupee[0], decoupee[1], decoupee[2], decoupee[3], decoupee[4], decoupee[5],
-							decoupee[6], new ImageIcon("./image_pioche/"+decoupee[7]+".png"));
+							decoupee[6], new ImageIcon("ressources/"+decoupee[7]+".png"));
 					this.paquet.addLast(DE);
 					break;
 				default:

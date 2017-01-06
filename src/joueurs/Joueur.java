@@ -2,7 +2,7 @@ package joueurs;
 
 import java.util.*;
 import cartes.*;
-import contrôleur.Control;
+import controleur.Control;
 import pioches.Pioche;
 import plateau_du_jeu.CampDuJoueur;
 import plateau_du_jeu.Centre;
@@ -732,18 +732,18 @@ public abstract class Joueur extends Observable {
 
 	/**
 	 * Vérifie si le joueur possède des cartes dans sa main qu'il peut
-	 * défausser, puis si c'est le cas, enlève cette carte de la main, afin de
+	 * défausser, puis si c'est le cas, enlève unecette carte de la main choisie par le joueur, afin de
 	 * la mettre dans la pioche.
 	 * 
 	 * @see MainDuJoueur
 	 * @see PiochE
 	 */
 	public void defausserCarte() {
-		System.out.println("Veux-tu défausser une carte ?(Entrez Oui, sinon par défaut ça sera Non.)");
-		try {
-			sca.repInt();
-			int reponse = sca.answer;
-			while (reponse == 1) {
+		System.out.println("Veux-tu défausser une carte ?(Entrez 1:Oui, sinon par défaut ça sera Non.)");
+		sca.repInt();
+		int reponse = sca.answer;
+		if (reponse == 1) {
+			try {
 				if (this.getMainjoueur().getNbCarte() > 0) {
 					this.getMainjoueur().afficherMain();
 					System.out.println("Donne-moi l'index de cette carte");
@@ -753,14 +753,11 @@ public abstract class Joueur extends Observable {
 				} else {
 					System.out.println("Vous n'avez pas de cartes à défausser");
 				}
-				System.out.println("Veux-tu à nouveau défausser une carte ?");
-				sca.repInt();
-				reponse = sca.answer;
+			} catch (InputMismatchException e) {
+				System.out.println("Erreur : vous devez entrer le nombre entier correspondant au type de PA.");
+			} catch (IndexOutOfBoundsException o) {
+				System.err.println("Erreur : Vous devez entrer un nombre compris entre 0 et 6.");
 			}
-		} catch (InputMismatchException e) {
-			System.out.println("Erreur : vous devez entrer le nombre entier correspondant au type de PA.");
-		} catch (IndexOutOfBoundsException o) {
-			System.err.println("Erreur : Vous devez entrer un nombre compris entre 0 et 6.");
 		}
 	}
 
@@ -780,7 +777,6 @@ public abstract class Joueur extends Observable {
 				Carte carte = this.getPioche().piocher();
 				this.getMainjoueur().ajouterCarte(carte);
 			}
-
 		}
 		this.mainjoueur.afficherMain();
 	}

@@ -1,7 +1,5 @@
 package cartes;
 
-import java.awt.Image;
-
 import javax.swing.ImageIcon;
 
 import plateau_du_jeu.Jeu;

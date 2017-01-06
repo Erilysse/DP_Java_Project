@@ -1,4 +1,4 @@
-package moteur_graphique;
+package moteurgraphique;
 
 import java.awt.Color;
 import javax.swing.JPanel;

@@ -1,6 +1,5 @@
 package pioches;
 
-import java.awt.Image;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -25,6 +24,14 @@ import cartes.Divinite;
  * @author manic
  */
 public class PiocheDivinite extends Pioche {
+	
+
+	/**
+	 * Unique objet de la classe Pioche, grâce au design pattern singleton.
+	 * 
+	 * @see Pioche#getInstance()
+	 */
+	private static PiocheDivinite instance = null;
 	
 	/**
 	 * Liste de l'ensemble des Divinités qui peuvent représenté un joueur. Elle
@@ -52,7 +59,7 @@ public class PiocheDivinite extends Pioche {
 		paquet = new LinkedList<Divinite>();
 		BufferedReader in = null;
 		try {
-			in = new BufferedReader(new FileReader("divinite.txt"));
+			in = new BufferedReader(new FileReader("ressources/divinite.txt"));
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -62,7 +69,7 @@ public class PiocheDivinite extends Pioche {
 			while ((line = in.readLine()) != null) {
 				String[] decoupee = line.split("\\;");
 				Divinite carte = new Divinite(decoupee[0], decoupee[1], decoupee[2], decoupee[3], decoupee[4], decoupee[5],
-						decoupee[6], new ImageIcon("./image_divinite/"+decoupee[7]+".png"));
+						decoupee[6], new ImageIcon("ressources/"+decoupee[7]+".png"));
 				this.paquet.addLast(carte);
 			}
 			in.close();
@@ -70,6 +77,20 @@ public class PiocheDivinite extends Pioche {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	/**
+	 * C'est le design pattern singleton. Il s'assure de n'avoir qu'une instance
+	 * de PiocheDivinité.
+	 * 
+	 * @return une PiocheDivinité.
+	 * 
+	 */
+	public static PiocheDivinite getInstance() {
+		if (instance == null) {
+			instance = new PiocheDivinite();
+		}
+		return instance;
 	}
 
 	/**

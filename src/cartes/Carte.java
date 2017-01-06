@@ -256,6 +256,20 @@ public class Carte {
 	}
 
 	/**
+	 * @return the image
+	 */
+	public ImageIcon getImage() {
+		return image;
+	}
+
+	/**
+	 * @param image the image to set
+	 */
+	public void setImage(ImageIcon image) {
+		this.image = image;
+	}
+
+	/**
 	 * Affiche un dogme de la carte, en faisant "matcher" l'élément du tableau,
 	 * une lettre, avec un dogme (Nature, Humain, etc..)
 	 * 
