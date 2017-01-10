@@ -25,8 +25,10 @@ public class Main {
 	 * Permets au joueur de choisir s'il veut jouer en interface graphique ou en
 	 * console. L'utilisateur choisit le nombre de joueurs grâce à la méthode
 	 * choisirJoueurs(). Lance la partie jusqu'à ce qu'il y a un vainqueur.
+	 * Si le joueur joue en interface graphique, lance le main de la classe Fenetre.
 	 * 
 	 * @see Jeu
+	 * @see Fenetre
 	 * 
 	 * @param args
 	 */

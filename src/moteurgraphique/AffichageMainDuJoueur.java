@@ -36,7 +36,7 @@ public class AffichageMainDuJoueur extends JPanel implements ActionListener, Obs
 		this.setLayout(new GridBagLayout());
 		if(nbButtons>0){
 			for(int i=0; i<=nbButtons; i++){
-				JButton j = new JButton(jeu.getListJoueur().get(0).getMainjoueur().getMain().get(i).toString());
+				JButton j = new JButton(jeu.getListJoueur().get(0).getMainjoueur().getMain().get(i).getImage());
 				cartes.add(j);
 				this.add(j);
 			}

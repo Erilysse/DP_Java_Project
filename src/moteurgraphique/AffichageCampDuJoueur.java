@@ -35,7 +35,7 @@ public class AffichageCampDuJoueur extends JPanel implements ActionListener, Obs
 		this.setLayout(new GridLayout(1, nbButtons));
 		if (nbButtons > 0) {
 			for (int i = 0; i <= nbButtons; i++) {
-				JButton j = new JButton(camp.getCamp().get(i).toString());
+				JButton j = new JButton(camp.getCamp().get(i).getImage());
 				cartes.add(j);
 				this.add(j);
 			}
